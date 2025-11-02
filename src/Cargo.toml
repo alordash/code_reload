@@ -1,3 +1,7 @@
 [workspace]
 resolver = "3"
-members = ["crates/code_reload_build_script", "crates/code_reload_proc_macro"]
+members = [ "crates/code_reload","crates/code_reload_build_script", "crates/code_reload_proc_macro", "crates/code_reload_runtime"]
+
+[workspace.dependencies]
+libloading = "0.8.8"
+notify = "8.2.0"
