@@ -1,7 +1,7 @@
-macro_rules! p {
+macro_rules! log {
     ($($tokens: tt)*) => {
         println!("cargo::warning={}", format!($($tokens)*))
     }
 }
 
-pub(crate) use p;
+pub(crate) use log;

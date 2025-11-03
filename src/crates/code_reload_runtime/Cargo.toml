@@ -6,6 +6,3 @@ edition = "2024"
 [dependencies]
 notify = { workspace = true }
 libloading = { workspace = true }
-
-[build-dependencies]
-code_reload_build = { path = "../code_reload_build" }

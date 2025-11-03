@@ -1,6 +1,6 @@
 use crate::executable::{ExecutableBuilder, IExecutableBuilder};
-use crate::fs::{ISourceFilesProvider, SourceFilesProvider};
-use crate::library::{ILibraryBuilder, LibraryBuilder};
+use crate::fs::{ISourceFilePathsProvider, SourceFilesProvider};
+use crate::library::{FileProcessor, ILibraryBuilder, LibraryBuilder};
 use std::cell::LazyCell;
 use std::sync::Arc;
 
@@ -12,10 +12,12 @@ pub struct ServiceCollection {
 }
 
 fn create_services() -> ServiceCollection {
-    let source_files_provider = Arc::new(SourceFilesProvider);
+    let source_file_paths_provider = Arc::new(SourceFilesProvider);
+    let file_processor = Arc::new(FileProcessor);
 
     let library_builder = Arc::new(LibraryBuilder {
-        source_files_provider: source_files_provider.clone(),
+        source_file_paths_provider,
+        file_processor,
     });
     let executable_builder = Arc::new(ExecutableBuilder);
 

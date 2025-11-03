@@ -1,7 +1,15 @@
 [workspace]
 resolver = "3"
-members = [ "crates/code_reload", "crates/code_reload_build", "crates/code_reload_proc_macro", "crates/code_reload_runtime"]
+members = ["crates/code_reload", "crates/code_reload_build", "crates/code_reload_proc_macro", "crates/code_reload_runtime", "crates/test_library"]
 
 [workspace.dependencies]
+proc-macro2 = "1.0.95"
+quote = "1.0.40"
+regex = "1.11.1"
+syn = "2.0.104"
+
+grep-searcher = "0.1.16"
+grep-regex = "0.1.14"
+
 libloading = "0.8.8"
 notify = "8.2.0"

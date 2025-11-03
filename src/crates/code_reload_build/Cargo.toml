@@ -11,3 +11,7 @@ name = "code_reload_build_bintest"
 path = "bin/main.rs"
 
 [dependencies]
+grep-searcher = { workspace = true }
+grep-regex = { workspace = true }
+proc-macro2 = { workspace = true }
+syn = { workspace = true }
