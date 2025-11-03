@@ -44,7 +44,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "code_reload_build_script"
+name = "code_reload_build"
 version = "0.1.0"
 
 [[package]]
@@ -63,7 +63,7 @@ dependencies = [
 name = "code_reload_runtime"
 version = "0.1.0"
 dependencies = [
- "code_reload_build_script",
+ "code_reload_build",
  "libloading",
  "notify",
 ]
