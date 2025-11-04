@@ -3,9 +3,14 @@ name = "test_library"
 version = "0.1.0"
 edition = "2024"
 
+[[bin]]
+name = "run"
+path = "bin/run.rs"
+
 [dependencies]
 code_reload = { path = "../code_reload" }
 libloading = { workspace = true }
+code_reload_build = { path = "../code_reload_build" }
 
 [build-dependencies]
 code_reload_build = { path = "../code_reload_build" }

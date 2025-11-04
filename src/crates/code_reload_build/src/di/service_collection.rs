@@ -1,6 +1,6 @@
 use crate::executable::{ExecutableBuilder, IExecutableBuilder};
-use crate::fs::{ISourceFilePathsProvider, SourceFilesProvider};
-use crate::library::{FileProcessor, ILibraryBuilder, LibraryBuilder};
+use crate::fs::SourceFilesProvider;
+use crate::library::{FileProcessor, FnSyntaxExtractor, ILibraryBuilder, LibraryBuilder};
 use std::cell::LazyCell;
 use std::sync::Arc;
 
@@ -13,7 +13,10 @@ pub struct ServiceCollection {
 
 fn create_services() -> ServiceCollection {
     let source_file_paths_provider = Arc::new(SourceFilesProvider);
-    let file_processor = Arc::new(FileProcessor);
+    let fn_syntax_extractor = Arc::new(FnSyntaxExtractor);
+    let file_processor = Arc::new(FileProcessor {
+        fn_syntax_extractor,
+    });
 
     let library_builder = Arc::new(LibraryBuilder {
         source_file_paths_provider,
