@@ -1,15 +1,17 @@
 use crate::macros::data::FnData;
 use proc_macro2::{Literal, TokenStream};
-use quote::quote;
+use quote::{format_ident, quote};
+use code_reload_core::constants;
 
 pub trait ISyntaxFactory {
-    fn create(&self, fn_data: FnData) -> TokenStream;
+    fn create_for_standalone(&self, fn_data: FnData) -> TokenStream;
+    fn create_for_runtime(&self, fn_data: FnData) -> TokenStream;
 }
 
 pub struct SyntaxFactory;
 
 impl ISyntaxFactory for SyntaxFactory {
-    fn create(&self, fn_data: FnData) -> TokenStream {
+    fn create_for_standalone(&self, fn_data: FnData) -> TokenStream {
         let FnData {
             dynamic_library_path,
             source_fn_syntax,
@@ -46,6 +48,39 @@ impl ISyntaxFactory for SyntaxFactory {
                 }
             }
 
+            #source_fn_syntax
+        };
+
+        return result;
+    }
+
+    fn create_for_runtime(&self, fn_data: FnData) -> TokenStream {
+        let FnData {
+            dynamic_library_path,
+            source_fn_syntax,
+            source_function_types_signature,
+            source_function_variable_name,
+            generated_function_vis,
+            generated_function_signature,
+            generated_function_expr_call,
+            library_opening_error_format,
+            symbol_search_error_format,
+        } = fn_data;
+        
+        let hotreload_module_ident = format_ident!("{}", constants::GENERATED_CODE_PREFIX);
+        let hotreload_static_variable_ident = format_ident!("{}", constants::GENERATED_STATIC_HOTRELOAD_VARIABLE_NAME);
+        let source_fn_ident = &generated_function_signature.ident;
+        let args = generated_function_expr_call.args;
+
+        let result = quote! {
+            #generated_function_vis #generated_function_signature {
+                return (crate:: #hotreload_module_ident :: #hotreload_static_variable_ident
+                    .read()
+                    .unwrap()
+                    .payload
+                    . #source_fn_ident)(#args);
+            }
+            
             #source_fn_syntax
         };
 

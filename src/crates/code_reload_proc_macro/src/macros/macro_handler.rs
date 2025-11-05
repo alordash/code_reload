@@ -27,7 +27,8 @@ impl IMacroHandler for MacroHandler {
 
         let fn_data = self.fn_data_factory.create(item_syntax);
 
-        let result = self.syntax_factory.create(fn_data);
+        // let result = self.syntax_factory.create_for_standalone(fn_data);
+        let result = self.syntax_factory.create_for_runtime(fn_data);
 
         return result.into();
     }

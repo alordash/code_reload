@@ -1,3 +1,5 @@
+// TODO - add test that verifies static variable name is the same
+// as `constants::GENERATED_STATIC_HOTRELOAD_VARIABLE_NAME`.
 #[macro_export]
 macro_rules! define_global_hotreload_variable {
     ($hotreload_payload_type:ty) => {
