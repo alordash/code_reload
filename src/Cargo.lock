@@ -267,7 +267,6 @@ version = "0.1.0"
 dependencies = [
  "code_reload",
  "code_reload_build",
- "libloading",
 ]
 
 [[package]]

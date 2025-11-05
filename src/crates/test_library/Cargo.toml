@@ -9,7 +9,6 @@ path = "bin/run.rs"
 
 [dependencies]
 code_reload = { path = "../code_reload" }
-libloading = { workspace = true }
 code_reload_build = { path = "../code_reload_build" }
 
 [build-dependencies]
