@@ -4,7 +4,7 @@ use memmap2::Mmap;
 use std::path::Path;
 use std::sync::Arc;
 use syn::__private::ToTokens;
-use code_reload_runtime::models::FnData;
+use crate::runtime::models::FnData;
 
 pub trait IFileProcessor {
     fn process(&self, file_path: &Path) -> Vec<FnData>;

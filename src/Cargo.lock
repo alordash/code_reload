@@ -33,8 +33,8 @@ checksum = "9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801"
 name = "code_reload"
 version = "0.1.0"
 dependencies = [
+ "code_reload_build",
  "code_reload_proc_macro",
- "code_reload_runtime",
 ]
 
 [[package]]
@@ -42,9 +42,10 @@ name = "code_reload_build"
 version = "0.1.0"
 dependencies = [
  "code_reload_core",
- "code_reload_runtime",
+ "libloading",
  "memchr",
  "memmap2",
+ "notify",
  "syn",
 ]
 
@@ -67,15 +68,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "regex",
- "syn",
-]
-
-[[package]]
-name = "code_reload_runtime"
-version = "0.1.0"
-dependencies = [
- "libloading",
- "notify",
  "syn",
 ]
 

@@ -1,4 +1,4 @@
-use crate::{HotreloadLibrary, IHotreloadPayload};
+use crate::runtime::{HotreloadLibrary, IHotreloadPayload};
 use notify::Watcher;
 use std::sync::RwLock;
 

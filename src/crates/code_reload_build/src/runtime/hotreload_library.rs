@@ -1,6 +1,6 @@
-use crate::{CARGO_TARGET_DIR_DEBUG, IHotreloadPayload, LibraryId, LibraryWrapper};
 use std::path::PathBuf;
 use std::sync::{LazyLock, RwLock};
+use crate::runtime::{IHotreloadPayload, LibraryId, LibraryWrapper, CARGO_TARGET_DIR_DEBUG};
 
 pub type LockedHotreloadLibrary<T: IHotreloadPayload> = LazyLock<RwLock<HotreloadLibrary<T>>>;
 

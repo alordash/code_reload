@@ -1,7 +1,7 @@
 use code_reload_core::services::IFnProcessor;
-use code_reload_runtime::models::FnData;
 use std::sync::Arc;
 use syn::ItemFn;
+use crate::runtime::models::FnData;
 
 pub trait IItemFnMapper {
     fn map(&self, item_fn: ItemFn) -> FnData;
