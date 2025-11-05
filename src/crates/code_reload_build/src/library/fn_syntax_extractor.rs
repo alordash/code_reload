@@ -1,9 +1,9 @@
 use std::sync::Arc;
 use crate::IItemFnMapper;
-use crate::runtime::models::FnData;
+use crate::runtime::models::BuildFnData;
 
 pub trait IFnSyntaxExtractor {
-    fn extract(&self, byte_str: &[u8]) -> Vec<FnData>;
+    fn extract(&self, byte_str: &[u8]) -> Vec<BuildFnData>;
 }
 
 pub struct FnSyntaxExtractor {
@@ -11,7 +11,7 @@ pub struct FnSyntaxExtractor {
 }
 
 impl IFnSyntaxExtractor for FnSyntaxExtractor {
-    fn extract(&self, byte_str: &[u8]) -> Vec<FnData> {
+    fn extract(&self, byte_str: &[u8]) -> Vec<BuildFnData> {
         let fn_syntaxes: Vec<_> = memchr::memmem::find_iter(&byte_str, Self::ATTRIBUTE_TAIL)
             .filter(|attribute_tail_index| {
                 self.is_attribute_tail_valid(&byte_str, *attribute_tail_index)

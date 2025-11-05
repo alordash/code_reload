@@ -46,6 +46,7 @@ dependencies = [
  "memchr",
  "memmap2",
  "notify",
+ "quote",
  "syn",
 ]
 

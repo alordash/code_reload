@@ -1,11 +1,11 @@
 use syn::{Ident, TypeBareFn};
 
-pub struct FnData {
+pub struct BuildFnData {
     bare_signature: TypeBareFn,
     ident: Ident,
 }
 
-impl FnData {
+impl BuildFnData {
     pub fn new(bare_signature: TypeBareFn, ident: Ident) -> Self {
         Self {
             bare_signature,

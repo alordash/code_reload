@@ -1,0 +1,1 @@
+pub const GENERATED_CODE_PREFIX: &'static str = "__code_reload";
