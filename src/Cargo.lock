@@ -41,9 +41,20 @@ dependencies = [
 name = "code_reload_build"
 version = "0.1.0"
 dependencies = [
+ "code_reload_core",
+ "code_reload_runtime",
  "memchr",
  "memmap2",
+ "syn",
+]
+
+[[package]]
+name = "code_reload_core"
+version = "0.1.0"
+dependencies = [
  "proc-macro2",
+ "quote",
+ "regex",
  "syn",
 ]
 
@@ -51,6 +62,7 @@ dependencies = [
 name = "code_reload_proc_macro"
 version = "0.0.0"
 dependencies = [
+ "code_reload_core",
  "libloading",
  "proc-macro2",
  "quote",
@@ -64,6 +76,7 @@ version = "0.1.0"
 dependencies = [
  "libloading",
  "notify",
+ "syn",
 ]
 
 [[package]]

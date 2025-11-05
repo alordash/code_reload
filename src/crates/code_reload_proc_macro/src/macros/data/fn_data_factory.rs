@@ -1,7 +1,8 @@
 use crate::macros::data::FnData;
-use crate::macros::{IErrorFormatter, IFnProcessor, IFnValidator, IMetadataProcessor};
+use crate::macros::{IErrorFormatter, IFnValidator, IMetadataProcessor};
 use std::sync::Arc;
 use syn::*;
+use code_reload_core::services::IFnProcessor;
 
 pub trait IFnDataFactory {
     fn create(&self, item_syntax: Item) -> FnData;

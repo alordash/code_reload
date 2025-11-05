@@ -1,5 +1,6 @@
 use crate::macros::data::FnDataFactory;
 use crate::macros::*;
+use code_reload_core::services::FnProcessor;
 use std::cell::LazyCell;
 use std::sync::Arc;
 

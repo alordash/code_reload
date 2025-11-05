@@ -12,6 +12,8 @@ name = "code_reload_proc_macro_bintest"
 path = "bin/main.rs"
 
 [dependencies]
+code_reload_core = { path = "../code_reload_core" }
+
 proc-macro2 = { workspace = true }
 quote = { workspace = true }
 regex = { workspace = true }
