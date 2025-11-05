@@ -1,7 +1,7 @@
 use crate::executable::{ExecutableBuilder, IExecutableBuilder};
 use crate::fs::SourceFilesProvider;
 use crate::library::{FileProcessor, FnSyntaxExtractor, ILibraryBuilder, LibraryBuilder};
-use crate::{IFileProcessor, IOutputGenerator, ItemFnMapper, OutputGenerator};
+use crate::{IFileProcessor, IOutputGenerator, ItemFnMapper, OutputGenerator, OutputWriter};
 use code_reload_core::services::FnProcessor;
 use std::cell::LazyCell;
 use std::sync::Arc;
@@ -13,7 +13,7 @@ pub struct ServiceCollection {
     pub executable_builder: Arc<dyn IExecutableBuilder>,
 
     pub file_processor: Arc<dyn IFileProcessor>,
-    pub output_generator: Arc<dyn IOutputGenerator>
+    pub output_generator: Arc<dyn IOutputGenerator>,
 }
 
 fn create_services() -> ServiceCollection {
@@ -24,13 +24,15 @@ fn create_services() -> ServiceCollection {
     let file_processor = Arc::new(FileProcessor {
         fn_syntax_extractor,
     });
-    
+
     let output_generator = Arc::new(OutputGenerator);
+    let output_writer = Arc::new(OutputWriter);
 
     let library_builder = Arc::new(LibraryBuilder {
         source_file_paths_provider,
         file_processor: file_processor.clone(),
         output_generator: output_generator.clone(),
+        output_writer,
     });
     let executable_builder = Arc::new(ExecutableBuilder);
 

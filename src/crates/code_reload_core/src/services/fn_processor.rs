@@ -5,7 +5,7 @@ use std::str::FromStr;
 use syn::punctuated::Punctuated;
 use syn::token::{Bracket, Paren, Pound};
 use syn::*;
-use crate::constants::GENERATED_CODE_PREFIX;
+use crate::constants;
 
 pub trait IFnProcessor {
     fn get_bare_function_signature(&self, signature: &Signature) -> TypeBareFn;
@@ -146,7 +146,7 @@ impl IFnProcessor for FnProcessor {
 
 impl FnProcessor {
     const NAME_MANGLE_PREFIX: LazyCell<Ident> =
-        LazyCell::new(|| Ident::new(GENERATED_CODE_PREFIX, Span::call_site()));
+        LazyCell::new(|| Ident::new(constants::GENERATED_CODE_PREFIX, Span::call_site()));
     const FUNCTION_VARIABLE_NAME_PREFIX: LazyCell<Ident> =
         LazyCell::new(|| Ident::new("library", Span::call_site()));
 }
