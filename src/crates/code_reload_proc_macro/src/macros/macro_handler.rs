@@ -49,7 +49,7 @@ impl MacroHandler {
             }
         }
         panic!(
-            "`hotreload` attribute accepts only '{}' as parameter (optional). Received: '{}'.",
+            "`hotreload` attribute accepts only '{}' as argument. Received: '{}'.",
             code_reload_core::constants::RUNTIME_TARGET_KEYWORD,
             received
         );
