@@ -1,15 +1,15 @@
 #![allow(unused)]
 
-use code_reload_proc_macro::hotreload;
+use code_reload::hotreload;
 use std::env::Args;
 use std::pin::Pin;
 
-#[hotreload]
+#[hotreload(a)]
 fn function() {
     let _nothing = ();
 }
 
-#[hotreload]
+#[hotreload(runtime)]
 #[inline(never)]
 fn function_with_attribute() {
     let _nothing = ();
