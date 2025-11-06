@@ -6,4 +6,5 @@ pub mod runtime {
     pub use code_reload_build::runtime::{
         HotreloadLibrary, IHotreloadPayload, LockedHotreloadLibrary,
     };
+    pub use code_reload_build::start_hotreload_watchers;
 }

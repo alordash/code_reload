@@ -39,9 +39,19 @@ impl IMacroHandler for MacroHandler {
 
 impl MacroHandler {
     fn is_targeting_runtime(&self, proc_macro_attribute: TokenStream) -> bool {
-        let Ok(keyword): Result<Ident> = syn::parse(proc_macro_attribute) else {
+        if proc_macro_attribute.is_empty() {
             return false;
-        };
-        return keyword == code_reload_core::constants::RUNTIME_TARGET_KEYWORD;
+        }
+        let received = proc_macro_attribute.to_string();
+        if let Ok(keyword) = syn::parse::<Ident>(proc_macro_attribute) {
+            if keyword == code_reload_core::constants::RUNTIME_TARGET_KEYWORD {
+                return true;
+            }
+        }
+        panic!(
+            "`hotreload` attribute accepts only '{}' as parameter (optional). Received: '{}'.",
+            code_reload_core::constants::RUNTIME_TARGET_KEYWORD,
+            received
+        );
     }
 }

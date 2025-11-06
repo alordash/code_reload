@@ -1,4 +1,3 @@
-use crate::executable::{ExecutableBuilder, IExecutableBuilder};
 use crate::fs::SourceFilesProvider;
 use crate::library::{FileProcessor, FnSyntaxExtractor, ILibraryBuilder, LibraryBuilder};
 use crate::{IFileProcessor, IOutputGenerator, ItemFnMapper, OutputGenerator, OutputWriter};
@@ -10,7 +9,6 @@ pub const SERVICES: LazyCell<ServiceCollection> = LazyCell::new(create_services)
 
 pub struct ServiceCollection {
     pub library_builder: Arc<dyn ILibraryBuilder>,
-    pub executable_builder: Arc<dyn IExecutableBuilder>,
 
     pub file_processor: Arc<dyn IFileProcessor>,
     pub output_generator: Arc<dyn IOutputGenerator>,
@@ -34,11 +32,9 @@ fn create_services() -> ServiceCollection {
         output_generator: output_generator.clone(),
         output_writer,
     });
-    let executable_builder = Arc::new(ExecutableBuilder);
 
     let services = ServiceCollection {
         library_builder,
-        executable_builder,
         file_processor,
         output_generator,
     };
