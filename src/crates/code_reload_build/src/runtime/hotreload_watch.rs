@@ -2,7 +2,7 @@ use crate::runtime::{HotreloadLibrary, IHotreloadPayload};
 use notify::Watcher;
 use std::sync::RwLock;
 
-pub fn start_hotreload_watch<T: IHotreloadPayload + Send + Sync>(
+pub fn start_watch<T: IHotreloadPayload + Send + Sync>(
     locked_hotreload_library: &'static RwLock<HotreloadLibrary<T>>,
 ) {
     let mut watcher = notify::recommended_watcher(|event| {
