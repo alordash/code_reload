@@ -6,5 +6,6 @@ edition = "2024"
 [dependencies]
 proc-macro2 = { workspace = true }
 quote = { workspace = true }
-regex = { workspace = true }
 syn = { workspace = true, features = ["full"] }
+
+libloading = { workspace = true }

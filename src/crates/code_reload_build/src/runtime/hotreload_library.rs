@@ -1,8 +1,9 @@
+use crate::runtime::{CARGO_TARGET_DIR_DEBUG, IHotreloadPayload, LibraryId};
+use code_reload_core::LibraryWrapper;
 use std::path::PathBuf;
 use std::sync::{LazyLock, RwLock};
-use crate::runtime::{IHotreloadPayload, LibraryId, LibraryWrapper, CARGO_TARGET_DIR_DEBUG};
 
-pub type LockedHotreloadLibrary<T: IHotreloadPayload> = LazyLock<RwLock<HotreloadLibrary<T>>>;
+pub type LockedHotreloadLibrary<T> = LazyLock<RwLock<HotreloadLibrary<T>>>;
 
 pub struct HotreloadLibrary<T: IHotreloadPayload> {
     pub payload: T,
@@ -52,9 +53,7 @@ impl<T: IHotreloadPayload> HotreloadLibrary<T> {
 
         std::fs::copy(&source_library_path, &versioned_library_path).unwrap(); // TODO - make somehow catchable in user code?
 
-        let library_wrapper = unsafe {
-            LibraryWrapper::new(libloading::Library::new(&versioned_library_path).unwrap()) // TODO - make somehow catchable in user code?
-        };
+        let library_wrapper = LibraryWrapper::new(&versioned_library_path).unwrap(); // TODO - make somehow catchable in user code?
         let payload = T::load(&library_wrapper);
         let hotreload_library = Self {
             payload,
@@ -76,9 +75,7 @@ impl<T: IHotreloadPayload> HotreloadLibrary<T> {
 
         std::fs::copy(&self.source_library_path, &next_versioned_library_path).unwrap(); // TODO - make somehow catchable in user code?
 
-        let library_wrapper = unsafe {
-            LibraryWrapper::new(libloading::Library::new(&next_versioned_library_path).unwrap()) // TODO - make somehow catchable in user code?
-        };
+        let library_wrapper = LibraryWrapper::new(&next_versioned_library_path).unwrap(); // TODO - make somehow catchable in user code?
 
         let payload = T::load(&library_wrapper);
         self.payload = payload;

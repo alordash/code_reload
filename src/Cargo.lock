@@ -34,6 +34,7 @@ name = "code_reload"
 version = "0.1.0"
 dependencies = [
  "code_reload_build",
+ "code_reload_core",
  "code_reload_proc_macro",
 ]
 
@@ -54,9 +55,9 @@ dependencies = [
 name = "code_reload_core"
 version = "0.1.0"
 dependencies = [
+ "libloading",
  "proc-macro2",
  "quote",
- "regex",
  "syn",
 ]
 
