@@ -8,8 +8,8 @@ macro_rules! start_hotreload_watchers {
     };
 
     ( $head:ident, $($tail:ident),+ ) => {
-        start_hotreload_watchers!($head)
-        start_hotreload_watchers!($tail)
+        code_reload::runtime::start_hotreload_watchers!($head);
+        code_reload::runtime::start_hotreload_watchers!($($tail),+)
     };
 }
 

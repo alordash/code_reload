@@ -44,10 +44,8 @@ impl FnSyntaxExtractor {
     const LONG_ATTRIBUTE_HEAD: &'static [u8] = b"#[code_reload::";
     const LONG_ATTRIBUTE_HEAD_LEN: usize = Self::LONG_ATTRIBUTE_HEAD.len();
 
-    const SHORT_ATTRIBUTE_TAIL: &'static [u8] = b"]";
-    const SHORT_ATTRIBUTE_TAIL_LEN: usize = Self::SHORT_ATTRIBUTE_TAIL.len();
-    const LONG_ATTRIBUTE_TAIL: &'static [u8] = b"(runtime)]"; // TODO - add test that value in parenthesis this is equal to `code_reload_core::constants::RUNTIME_TARGET_KEYWORD`
-    const LONG_ATTRIBUTE_TAIL_LEN: usize = Self::LONG_ATTRIBUTE_TAIL.len();
+    const ATTRIBUTE_TAIL: &'static [u8] = b"(runtime)]"; // TODO - add test that value in parenthesis this is equal to `code_reload_core::constants::RUNTIME_TARGET_KEYWORD`
+    const ATTRIBUTE_TAIL_LEN: usize = Self::ATTRIBUTE_TAIL.len();
 
     fn try_get_fn_syntax_start_index(&self, byte_str: &[u8], attribute_body_index: usize) -> Option<usize> {
         if !self.is_attribute_head_valid(byte_str, attribute_body_index) {
@@ -79,19 +77,12 @@ impl FnSyntaxExtractor {
     fn try_get_attribute_end_index(&self, byte_str: &[u8], attribute_body_index: usize) -> Option<usize> {
         let start = attribute_body_index + Self::ATTRIBUTE_BODY_LEN;
         let remaining_bytes_count = byte_str.len() - start;
-        if remaining_bytes_count < Self::SHORT_ATTRIBUTE_TAIL_LEN {
+        if remaining_bytes_count < Self::ATTRIBUTE_TAIL_LEN {
             return None;
         }
-        let short_end = start + Self::SHORT_ATTRIBUTE_TAIL_LEN;
-        if &byte_str[start..short_end] == Self::SHORT_ATTRIBUTE_TAIL {
-            return Some(short_end);
-        }
-        if remaining_bytes_count < Self::LONG_ATTRIBUTE_TAIL_LEN {
-            return None;
-        }
-        let long_end = start + Self::LONG_ATTRIBUTE_TAIL_LEN;
-        if &byte_str[start..long_end] == Self::LONG_ATTRIBUTE_TAIL {
-            return Some(long_end);
+        let end = start + Self::ATTRIBUTE_TAIL_LEN;
+        if &byte_str[start..end] == Self::ATTRIBUTE_TAIL {
+            return Some(end);
         }
 
         return None;

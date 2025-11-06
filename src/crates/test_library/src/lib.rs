@@ -9,5 +9,5 @@ pub fn add(left: i32, right: i32) -> i32 {
     for i in left..right {
         a += i;
     }
-    a + left + right * 10
+    a + left + right * 3
 }
