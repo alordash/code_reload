@@ -1,12 +1,15 @@
+use test_library::add;
+
 fn main() {
-    let services = &code_reload_build::SERVICES;
-    let file_processor = &services.file_processor;
-    let output_generator = &services.output_generator;
-    println!("current dir: {:?}", std::env::current_dir());
-    let build_fn_datas = file_processor.process(r#"crates\test_library\test_files\big.rs"#.as_ref());
-    let output = output_generator.generate(build_fn_datas);
-    
-    println!("output:\n{output}");
+    let mut i = 0;
+    loop {
+        i += 1;
+        let a = 44;
+        let b = 18;
+        let result = add(a, b);
+        println!("#{i}. {a} + {b} = {result}");
+        std::thread::sleep(std::time::Duration::from_millis(500));
+    }
 
     println!("Done.");
 }

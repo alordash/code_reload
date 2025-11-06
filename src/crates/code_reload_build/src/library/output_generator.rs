@@ -39,7 +39,7 @@ pub mod __code_reload {{
     }}
 
     impl code_reload::runtime::IHotreloadPayload for HotreloadPayload {{
-        fn load(library_wrapper: &code_reload::LibraryWrapper) -> Self {{
+        fn load(library_wrapper: &code_reload::runtime::LibraryWrapper) -> Self {{
             Self {{
                 {payload_fields_initialization}
             }}
@@ -48,7 +48,7 @@ pub mod __code_reload {{
 
     pub static HOTRELOAD: code_reload::runtime::LockedHotreloadLibrary<HotreloadPayload> =
     std::sync::LazyLock::new(|| {{
-        code_reload::HotreloadLibrary::load_locked(std::env!("CARGO_PKG_NAME"))
+        code_reload::runtime::HotreloadLibrary::load_locked(std::env!("CARGO_PKG_NAME"))
     }});
 }}
 "#
