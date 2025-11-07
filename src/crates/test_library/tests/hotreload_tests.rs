@@ -1,5 +1,7 @@
 #![allow(unused)]
 
+code_reload::runtime::add_tests_runtime!();
+
 use code_reload::hotreload;
 use std::env::Args;
 use std::pin::Pin;
@@ -70,7 +72,7 @@ impl Model {
     #[hotreload]
     pub fn mut_pin_mut(mut self: Pin<&mut Self>) {}
     
-    #[hotreload("qweasd")]
+    #[hotreload]
     pub fn consume(self) -> i32 {
         self.value
     }
