@@ -56,7 +56,6 @@ impl FnSyntaxExtractor {
     }
 
     fn get_fn_byte_substr<'a>(&self, byte_str: &'a [u8]) -> Option<&'a [u8]> {
-        let str = str::from_utf8(byte_str).unwrap();
         let mut byte_indices = byte_str.iter().enumerate();
         if byte_indices.find(|(_, char)| **char == b'{').is_none() {
             return None;
@@ -69,7 +68,6 @@ impl FnSyntaxExtractor {
                 b'}' => {
                     brackets_count -= 1;
                     if brackets_count == 0 {
-                        let result_str = str::from_utf8(&byte_str[0..=index]);
                         return Some(&byte_str[0..=index]);
                     }
                 }
