@@ -1,0 +1,3 @@
+[workspace]
+resolver = "3"
+members = ["crates/code_reload_build_script", "crates/code_reload_proc_macro"]
