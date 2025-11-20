@@ -1,6 +1,8 @@
 use test_library::add;
 
 fn main() {
+    code_reload::runtime::start_hotreload_watchers!(test_library);
+    
     let mut i = 0;
     loop {
         i += 1;
