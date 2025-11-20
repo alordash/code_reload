@@ -4,7 +4,7 @@ use code_reload::hotreload;
 use std::env::Args;
 use std::pin::Pin;
 
-#[hotreload(a)]
+#[hotreload]
 fn function() {
     let _nothing = ();
 }

@@ -4,7 +4,7 @@ macro_rules! start_hotreload_watchers {
     () => {};
 
     ( $crate_name:ident ) => {
-        code_reload::start_hotreload_watch(& $crate_name :: __code_reload :: HOTRELOAD);
+        code_reload::runtime::start_hotreload_watch(& $crate_name :: __code_reload :: HOTRELOAD);
     };
 
     ( $head:ident, $($tail:ident),+ ) => {
