@@ -1,5 +1,6 @@
 // #![feature(proc_macro_span)]
 
+use code_reload_core::SourceCodeId;
 use crate::di::SERVICES;
 
 mod di;
@@ -12,13 +13,13 @@ pub fn hotreload(
 ) -> proc_macro::TokenStream {
     let macro_handler = &SERVICES.macro_handler;
     
-    let call_site = proc_macro::Span::call_site();
-    // println!("call_site bytes: {:?}", call_site.byte_range());
-    println!("call_site file: {}", call_site.file());
-    println!("call_site line: {:?}", call_site.line());
-    println!("call_site column: {:?}", call_site.column());
-    println!("call_site local_file: {:?}", call_site.local_file());
-    println!("call_site source_text: {:?}", call_site.source_text());
+    let call_site = proc_macro::Span::call_site();    
+    let source_code_id = SourceCodeId {
+        file_path: call_site.file().into(),
+        line: call_site.line(),
+        column: call_site.column(),
+    };
+    println!("[proc_macro] source_code_id: {source_code_id}");
 
     let result = macro_handler.handle(proc_macro_attribute, proc_macro_item);
 

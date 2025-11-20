@@ -1,13 +1,13 @@
 use crate::IItemFnMapper;
 use crate::debug_log::log;
 use crate::runtime::models::BuildFnData;
-use code_reload_core::SourceCodeId;
 use memmap2::Mmap;
 use std::cell::LazyCell;
 use std::iter;
 use std::path::Path;
 use std::sync::Arc;
 use syn::__private::ToTokens;
+use code_reload_core::SourceCodeId;
 
 pub trait IFileProcessor {
     fn process(&self, file_path: &Path) -> Vec<BuildFnData>;
@@ -32,12 +32,7 @@ impl IFileProcessor for FileProcessor {
                 build_fn_data.bare_signature().to_token_stream()
             );
             let source_code_id = build_fn_data.source_code_id();
-            log!(
-                "source_code_id: '{:?}':{},{}",
-                source_code_id.file_path,
-                source_code_id.row,
-                source_code_id.column
-            );
+            log!("[build] source_code_id: {source_code_id}");
         }
 
         return build_fn_datas;
@@ -61,33 +56,36 @@ impl FileProcessor {
     const ATTRIBUTE_TAIL_LEN: usize = Self::ATTRIBUTE_TAIL.len();
 
     fn extract(&self, file_path_ref: &Path, byte_str: &[u8]) -> Vec<BuildFnData> {
-        let row_indices = iter::once(0)
-            .chain(memchr::memchr_iter(b'\n', byte_str))
-            .collect::<Vec<_>>();
-        // LazyCell::new(|| memchr::memchr_iter(b'\n', byte_str).collect::<Vec<_>>());
+        let line_indices = LazyCell::new(|| {
+            iter::once(0)
+                .chain(memchr::memchr_iter(b'\n', byte_str).map(|x| x + 1))
+                .collect::<Vec<_>>()
+        });
+        
+        log!("line_indices: {:?}", *line_indices);
 
         let attribute_body_indices: Vec<_> =
             memchr::memmem::find_iter(&byte_str, Self::ATTRIBUTE_BODY).collect();
         let fn_syntaxes: Vec<_> = attribute_body_indices
             .iter()
             .filter_map(|attribute_body_index| {
-                let Some(fn_syntax_start_index) =
-                    self.try_get_fn_syntax_start_index(&byte_str, *attribute_body_index)
+                let Some(attribute_borders) =
+                    self.try_get_attribute_borders(&byte_str, *attribute_body_index)
                 else {
                     return None;
                 };
                 let fn_syntax_byte_str = self
-                    .get_fn_byte_substr(&byte_str[fn_syntax_start_index..])
+                    .get_fn_byte_substr(&byte_str[attribute_borders.end_index..])
                     .unwrap();
                 let fn_syntax_byte_str = str::from_utf8(fn_syntax_byte_str).unwrap();
                 let item_fn = syn::parse_str(fn_syntax_byte_str).unwrap();
 
                 let file_path = file_path_ref.to_owned();
-                let row = self.get_row(*attribute_body_index, &row_indices);
-                let column = attribute_body_index - row_indices[row];
+                let line_index = self.get_line_index(attribute_borders.start_index + 1, &line_indices);
+                let column = attribute_borders.start_index + 1 - line_indices[line_index];
                 let source_code_id = SourceCodeId {
                     file_path,
-                    row,
+                    line: line_index + 1,
                     column,
                 };
                 let build_fn_data = self.item_fn_mapper.map(item_fn, source_code_id);
@@ -98,16 +96,18 @@ impl FileProcessor {
         return fn_syntaxes;
     }
 
-    fn try_get_fn_syntax_start_index(
+    fn try_get_attribute_borders(
         &self,
         byte_str: &[u8],
         attribute_body_index: usize,
-    ) -> Option<usize> {
-        if !self.is_attribute_head_valid(byte_str, attribute_body_index) {
-            return None;
-        }
+    ) -> Option<AttributeBorders> {
+        let start_index = self.try_get_attribute_start_index(byte_str, attribute_body_index)?;
+        let end_index = self.try_get_attribute_end_index(byte_str, attribute_body_index)?;
 
-        return self.try_get_attribute_end_index(byte_str, attribute_body_index);
+        return Some(AttributeBorders {
+            start_index,
+            end_index,
+        });
     }
 
     fn get_fn_byte_substr<'a>(&self, byte_str: &'a [u8]) -> Option<&'a [u8]> {
@@ -133,31 +133,33 @@ impl FileProcessor {
         return None;
     }
 
-    fn get_row(&self, fn_syntax_start_index: usize, row_indices: &Vec<usize>) -> usize {
-        return row_indices
+    fn get_line_index(&self, fn_syntax_start_index: usize, line_indices: &Vec<usize>) -> usize {
+        return line_indices
             .binary_search(&fn_syntax_start_index)
-            .unwrap_err()
-            - 1;
+            .unwrap_or_else(|x| x - 1);
     }
 
-    fn is_attribute_head_valid(&self, byte_str: &[u8], attribute_body_index: usize) -> bool {
+    fn try_get_attribute_start_index(
+        &self,
+        byte_str: &[u8],
+        attribute_body_index: usize,
+    ) -> Option<usize> {
         if attribute_body_index < Self::SHORT_ATTRIBUTE_HEAD_LEN {
-            return false;
+            return None;
         }
         let short_start = attribute_body_index - Self::SHORT_ATTRIBUTE_HEAD_LEN;
-        let a = str::from_utf8(&byte_str[short_start..attribute_body_index]).unwrap();
         if &byte_str[short_start..attribute_body_index] == Self::SHORT_ATTRIBUTE_HEAD {
-            return true;
+            return Some(short_start);
         }
         if attribute_body_index < Self::LONG_ATTRIBUTE_HEAD_LEN {
-            return false;
+            return None;
         }
         let long_start = attribute_body_index - Self::LONG_ATTRIBUTE_HEAD_LEN;
         if &byte_str[long_start..attribute_body_index] == Self::LONG_ATTRIBUTE_HEAD {
-            return true;
+            return Some(long_start);
         }
 
-        return false;
+        return None;
     }
 
     fn try_get_attribute_end_index(
@@ -177,4 +179,9 @@ impl FileProcessor {
 
         return None;
     }
+}
+
+struct AttributeBorders {
+    pub start_index: usize,
+    pub end_index: usize,
 }

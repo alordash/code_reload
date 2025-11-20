@@ -3,6 +3,11 @@ pub fn first() -> i32 {
     let a = 1;
     return a + 2;
 }
+ #[code_reload::hotreload(runtime)]
+pub fn second() -> i32 {
+    let a = 1;
+    return a + 2;
+}
 
 use code_reload::hotreload;
 
