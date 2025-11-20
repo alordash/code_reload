@@ -10,7 +10,7 @@ mod debug_log;
 
 pub mod runtime;
 
-pub fn library() {
+pub fn build() {
     let library_builder = &SERVICES.library_builder;
     library_builder.build();
 }

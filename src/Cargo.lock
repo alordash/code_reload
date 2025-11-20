@@ -263,11 +263,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "test_demrary"
+version = "0.1.0"
+dependencies = [
+ "code_reload",
+]
+
+[[package]]
 name = "test_library"
 version = "0.1.0"
 dependencies = [
  "code_reload",
- "code_reload_build",
+ "test_demrary",
 ]
 
 [[package]]
