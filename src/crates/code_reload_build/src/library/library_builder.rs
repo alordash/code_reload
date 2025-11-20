@@ -1,7 +1,7 @@
 use crate::debug_log::log;
 use crate::fs::ISourceFilePathsProvider;
 use crate::library::IFileProcessor;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use crate::{IOutputGenerator, IOutputWriter};
 
@@ -19,7 +19,7 @@ pub struct LibraryBuilder {
 impl ILibraryBuilder for LibraryBuilder {
     fn build(&self) {
         let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
-        let src_dir: PathBuf = [&manifest_dir, "src"].iter().collect();
+        let src_dir = Path::new(&manifest_dir).join("src");
         let rust_file_paths = self.source_file_paths_provider.provide(&src_dir);
         let all_build_fn_datas: Vec<_> = rust_file_paths
             .iter()
