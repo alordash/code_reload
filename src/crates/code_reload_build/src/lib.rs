@@ -1,3 +1,10 @@
+mod fs;
+
+mod executable;
+mod library;
+pub use executable::*;
+pub use library::*;
+
 use std::path::{Path, PathBuf};
 
 pub fn get_all_rust_file_paths(path: &Path) -> Vec<PathBuf> {

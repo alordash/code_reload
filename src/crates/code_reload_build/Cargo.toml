@@ -1,0 +1,13 @@
+[package]
+name = "code_reload_build"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "code_reload_build"
+
+[[bin]]
+name = "code_reload_build_bintest"
+path = "bin/main.rs"
+
+[dependencies]

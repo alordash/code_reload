@@ -9,7 +9,7 @@ macro_rules! p {
 fn main() {
     let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
     let src_dir: PathBuf = [&manifest_dir, "src"].iter().collect();
-    let rust_files = code_reload_build_script::get_all_rust_file_paths(&src_dir);
+    let rust_files = code_reload_build::get_all_rust_file_paths(&src_dir);
     for rust_file in rust_files {
         p!("'{:?}'", rust_file);
     }
