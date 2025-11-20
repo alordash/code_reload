@@ -12,10 +12,10 @@ name = "code_reload_proc_macro_bintest"
 path = "bin/main.rs"
 
 [dependencies]
-proc-macro2 = "1.0.95"
-quote = "1.0.40"
-regex = "1.11.1"
-syn = { version = "2.0.104", features = ["full"] }
-uuid = { version = "1.17.0", features = ["v7"] }
-libloading = "0.8.8"
+proc-macro2 = { workspace = true }
+quote = { workspace = true }
+regex = { workspace = true }
+syn = { workspace = true, features = ["full"] }
 
+[dev-dependencies]
+libloading = { workspace = true }

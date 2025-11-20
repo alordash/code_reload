@@ -1,14 +1,14 @@
 use std::path::{Path, PathBuf};
 
-pub(crate) trait ISourceFilesProvider {
+pub trait ISourceFilePathsProvider {
     fn provide(&self, path: &Path) -> Vec<PathBuf>;
 }
 
-pub(crate) struct SourceFilesProvider;
+pub struct SourceFilesProvider;
 
 const RUST_FILE_EXTENSION: &'static str = "rs";
 
-impl ISourceFilesProvider for SourceFilesProvider {
+impl ISourceFilePathsProvider for SourceFilesProvider {
     fn provide(&self, path: &Path) -> Vec<PathBuf> {
         let mut source_files_paths = Vec::new();
         self.recursive_provide(path, &mut source_files_paths);

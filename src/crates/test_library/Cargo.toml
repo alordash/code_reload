@@ -1,0 +1,11 @@
+[package]
+name = "test_library"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+code_reload = { path = "../code_reload" }
+libloading = { workspace = true }
+
+[build-dependencies]
+code_reload_build = { path = "../code_reload_build" }
