@@ -63,6 +63,7 @@ dependencies = [
 name = "code_reload_runtime"
 version = "0.1.0"
 dependencies = [
+ "code_reload_build_script",
  "libloading",
  "notify",
 ]
