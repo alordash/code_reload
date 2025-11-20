@@ -75,9 +75,9 @@ impl ISyntaxFactory for SyntaxFactory {
                     .unwrap()
                     .payload
                     . #source_fn_ident)(#args);
-
-                #source_fn_syntax
             }
+
+            #source_fn_syntax
         };
 
         return result;

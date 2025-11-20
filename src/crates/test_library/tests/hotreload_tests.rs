@@ -49,7 +49,7 @@ impl Model {
         self.value += 1;
     }
     
-    #[hotreload]
+    #[hotreload(runtime)]
     pub fn read_and_write(&mut self) -> i32 {
         self.value += 1;
         self.value
