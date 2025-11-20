@@ -1,3 +1,5 @@
+// #![feature(proc_macro_span)]
+
 use crate::di::SERVICES;
 
 mod di;
@@ -11,6 +13,7 @@ pub fn hotreload(
     let macro_handler = &SERVICES.macro_handler;
     
     let call_site = proc_macro::Span::call_site();
+    // println!("call_site bytes: {:?}", call_site.byte_range());
     println!("call_site file: {}", call_site.file());
     println!("call_site line: {:?}", call_site.line());
     println!("call_site column: {:?}", call_site.column());

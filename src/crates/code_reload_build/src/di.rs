@@ -1,5 +1,5 @@
 use crate::fs::SourceFilesProvider;
-use crate::library::{FileProcessor, FnSyntaxExtractor, ILibraryBuilder, LibraryBuilder};
+use crate::library::{FileProcessor, ILibraryBuilder, LibraryBuilder};
 use crate::{IFileProcessor, IOutputGenerator, ItemFnMapper, OutputGenerator, OutputWriter};
 use code_reload_core::services::FnProcessor;
 use std::cell::LazyCell;
@@ -18,9 +18,8 @@ fn create_services() -> ServiceCollection {
     let source_file_paths_provider = Arc::new(SourceFilesProvider);
     let fn_processor = Arc::new(FnProcessor);
     let item_fn_mapper = Arc::new(ItemFnMapper { fn_processor });
-    let fn_syntax_extractor = Arc::new(FnSyntaxExtractor { item_fn_mapper });
     let file_processor = Arc::new(FileProcessor {
-        fn_syntax_extractor,
+        item_fn_mapper,
     });
 
     let output_generator = Arc::new(OutputGenerator);
