@@ -6,6 +6,8 @@ mod hotreload_watch;
 mod library_id;
 mod library_wrapper;
 
+pub mod models;
+
 pub use constants::*;
 pub use hotreload_library::*;
 pub use hotreload_payload::*;

@@ -1,4 +1,4 @@
-use crate::di::SERVICES;
+pub use crate::di::SERVICES;
 
 mod di;
 mod fs;
