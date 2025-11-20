@@ -1,5 +1,4 @@
 mod constants;
-mod global_hotreload_variable_macro;
 mod hotreload_library;
 mod hotreload_payload;
 mod hotreload_watch;
