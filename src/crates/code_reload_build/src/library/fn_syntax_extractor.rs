@@ -28,6 +28,10 @@ impl IFnSyntaxExtractor for FnSyntaxExtractor {
 }
 
 impl FnSyntaxExtractor {
+    /// Attribute can be specified as
+    /// `#[hotreload]`
+    /// or
+    /// `#[code_reload::hotreload]`
     const ATTRIBUTE_TAIL: &'static [u8] = b"hotreload]";
     const ATTRIBUTE_TAIL_LEN: usize = Self::ATTRIBUTE_TAIL.len();
 
