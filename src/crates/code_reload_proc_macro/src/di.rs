@@ -23,11 +23,11 @@ fn create_services() -> ServiceCollection {
         error_formatter,
     });
 
-    let macro_formatter = Arc::new(SyntaxFactory);
+    let syntax_factory = Arc::new(SyntaxFactory);
 
     let macro_handler = Arc::new(MacroHandler {
         fn_data_factory,
-        macro_formatter,
+        syntax_factory,
     });
     let services = ServiceCollection { macro_handler };
     return services;

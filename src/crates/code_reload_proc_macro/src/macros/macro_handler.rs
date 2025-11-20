@@ -14,7 +14,7 @@ pub trait IMacroHandler {
 
 pub struct MacroHandler {
     pub fn_data_factory: Arc<dyn IFnDataFactory>,
-    pub macro_formatter: Arc<dyn ISyntaxFactory>
+    pub syntax_factory: Arc<dyn ISyntaxFactory>
 }
 
 impl IMacroHandler for MacroHandler {
@@ -27,7 +27,7 @@ impl IMacroHandler for MacroHandler {
 
         let fn_data = self.fn_data_factory.create(item_syntax);
 
-        let result = self.macro_formatter.create(fn_data);
+        let result = self.syntax_factory.create(fn_data);
 
         return result.into();
     }
