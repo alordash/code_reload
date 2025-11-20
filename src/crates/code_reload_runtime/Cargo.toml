@@ -1,0 +1,8 @@
+[package]
+name = "code_reload_runtime"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+notify = { workspace = true }
+libloading = { workspace = true }

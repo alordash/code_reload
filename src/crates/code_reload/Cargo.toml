@@ -1,0 +1,8 @@
+[package]
+name = "code_reload"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+code_reload_proc_macro = { path = "../code_reload_proc_macro" }
+code_reload_runtime = { path = "../code_reload_runtime" }
