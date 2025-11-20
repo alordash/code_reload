@@ -1,5 +1,7 @@
 pub use code_reload_proc_macro::hotreload;
 
 pub mod runtime {
-    // pub use code_reload_build::
+    pub use code_reload_build::runtime::{
+        HotreloadLibrary, IHotreloadPayload, LibraryWrapper, LockedHotreloadLibrary,
+    };
 }
