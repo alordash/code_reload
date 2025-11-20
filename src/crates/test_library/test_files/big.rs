@@ -1,11 +1,11 @@
-#[code_reload::hotreload]
+#[code_reload::hotreload(runtime)]
 pub fn add1(left: i32, right: i32) -> i32 {
     left + right
 }
 
 pub struct FileProcessor;
 
-#[code_reload::hotreload]pub fn add2(left: i32, right: i32) -> i32 {
+#[code_reload::hotreload(runtime)]pub fn add2(left: i32, right: i32) -> i32 {
     left + right
 }
 
