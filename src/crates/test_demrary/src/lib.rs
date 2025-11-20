@@ -1,6 +1,6 @@
 use code_reload::hotreload;
 
-include!(concat!(env!("OUT_DIR"), "/__code_reload_hotreload.rs"));
+code_reload::runtime::add_runtime!();
 
 #[derive(Debug)]
 pub struct Data {
@@ -13,7 +13,7 @@ impl Data {
     #[hotreload]
     pub fn new() -> Self {
         Self {
-            number: 1,
+            number: 111,
             string: String::from("quo vadis"),
         }
     }

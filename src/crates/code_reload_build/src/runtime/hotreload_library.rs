@@ -51,9 +51,23 @@ impl<T: IHotreloadPayload> HotreloadLibrary<T> {
         let versioned_library_file_name = hotreload_library_id.to_versioned_file_name();
         let versioned_library_path = CARGO_TARGET_DIR_DEBUG.join(versioned_library_file_name);
 
-        std::fs::copy(&source_library_path, &versioned_library_path).unwrap(); // TODO - make somehow catchable in user code?
+        std::fs::copy(&source_library_path, &versioned_library_path)
+            .map_err(|e| {
+                format!(
+                    "Error copying shared library '{}': {e:?}",
+                    source_library_path.to_string_lossy()
+                )
+            })
+            .unwrap(); // TODO - make somehow catchable in user code?
 
-        let library_wrapper = LibraryWrapper::new(&versioned_library_path).unwrap(); // TODO - make somehow catchable in user code?
+        let library_wrapper = LibraryWrapper::new(&versioned_library_path)
+            .map_err(|e| {
+                format!(
+                    "Error opening shared library '{}': {e:?}",
+                    versioned_library_path.to_string_lossy()
+                )
+            })
+            .unwrap(); // TODO - make somehow catchable in user code?
         let payload = T::load(&library_wrapper);
         let hotreload_library = Self {
             payload,
