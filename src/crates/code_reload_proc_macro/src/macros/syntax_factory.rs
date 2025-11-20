@@ -1,7 +1,7 @@
 use crate::macros::data::FnData;
+use code_reload_core::constants;
 use proc_macro2::{Literal, TokenStream};
 use quote::{format_ident, quote};
-use code_reload_core::constants;
 
 pub trait ISyntaxFactory {
     fn create_for_standalone(&self, fn_data: FnData) -> TokenStream;
@@ -61,9 +61,10 @@ impl ISyntaxFactory for SyntaxFactory {
             generated_function_expr_call,
             ..
         } = fn_data;
-        
+
         let hotreload_module_ident = format_ident!("{}", constants::GENERATED_CODE_PREFIX);
-        let hotreload_static_variable_ident = format_ident!("{}", constants::GENERATED_STATIC_HOTRELOAD_VARIABLE_NAME);
+        let hotreload_static_variable_ident =
+            format_ident!("{}", constants::GENERATED_STATIC_HOTRELOAD_VARIABLE_NAME);
         let source_fn_ident = &generated_function_signature.ident;
         let args = generated_function_expr_call.args;
 
@@ -74,9 +75,9 @@ impl ISyntaxFactory for SyntaxFactory {
                     .unwrap()
                     .payload
                     . #source_fn_ident)(#args);
+
+                #source_fn_syntax
             }
-            
-            #source_fn_syntax
         };
 
         return result;
