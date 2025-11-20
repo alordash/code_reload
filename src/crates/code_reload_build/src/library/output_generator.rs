@@ -39,7 +39,7 @@ pub mod __code_reload {{
     }}
 
     impl code_reload::runtime::IHotreloadPayload for HotreloadPayload {{
-        fn load(library_wrapper: &code_reload::runtime::LibraryWrapper) -> Self {{
+        fn load(library_wrapper: &code_reload::LibraryWrapper) -> Self {{
             Self {{
                 {payload_fields_initialization}
             }}

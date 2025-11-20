@@ -4,5 +4,6 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+code_reload_core = { path = "../code_reload_core" }
 code_reload_proc_macro = { path = "../code_reload_proc_macro" }
 code_reload_build = { path = "../code_reload_build" }

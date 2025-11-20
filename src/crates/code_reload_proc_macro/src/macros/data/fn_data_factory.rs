@@ -19,7 +19,7 @@ impl IFnDataFactory for FnDataFactory {
     fn create(&self, item_syntax: Item) -> FnData {
         let mut source_fn_syntax = match item_syntax {
             Item::Fn(fn_syntax) => fn_syntax,
-            other => {
+            _ => {
                 panic!("Unsupported item: this attribute can be applied only to functions.");
             }
         };

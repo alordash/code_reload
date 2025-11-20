@@ -20,7 +20,7 @@ pub struct MacroHandler {
 impl IMacroHandler for MacroHandler {
     fn handle(
         &self,
-        proc_macro_attribute: TokenStream,
+        _proc_macro_attribute: TokenStream,
         proc_macro_item: TokenStream,
     ) -> TokenStream {
         let item_syntax = parse_macro_input!(proc_macro_item as Item);
