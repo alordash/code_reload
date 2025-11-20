@@ -14,13 +14,13 @@ pub trait IMacroHandler {
 
 pub struct MacroHandler {
     pub fn_data_factory: Arc<dyn IFnDataFactory>,
-    pub syntax_factory: Arc<dyn ISyntaxFactory>
+    pub syntax_factory: Arc<dyn ISyntaxFactory>,
 }
 
 impl IMacroHandler for MacroHandler {
     fn handle(
         &self,
-        _proc_macro_attribute: TokenStream,
+        proc_macro_attribute: TokenStream,
         proc_macro_item: TokenStream,
     ) -> TokenStream {
         let item_syntax = parse_macro_input!(proc_macro_item as Item);
@@ -28,8 +28,21 @@ impl IMacroHandler for MacroHandler {
         let fn_data = self.fn_data_factory.create(item_syntax);
 
         // let result = self.syntax_factory.create_for_standalone(fn_data);
-        let result = self.syntax_factory.create_for_runtime(fn_data);
+        let result = if self.is_targeting_runtime(proc_macro_attribute) {
+            self.syntax_factory.create_for_runtime(fn_data)
+        } else {
+            self.syntax_factory.create_for_standalone(fn_data)
+        };
 
         return result.into();
+    }
+}
+
+impl MacroHandler {
+    fn is_targeting_runtime(&self, proc_macro_attribute: TokenStream) -> bool {
+        let Ok(keyword): Result<Ident> = syn::parse(proc_macro_attribute) else {
+            return false;
+        };
+        return keyword == code_reload_core::constants::RUNTIME_TARGET_KEYWORD;
     }
 }
