@@ -1,13 +1,12 @@
 use crate::IItemFnMapper;
 use crate::debug_log::log;
 use crate::runtime::models::BuildFnData;
+use code_reload_core::{SourceCodeId, constants};
 use memmap2::Mmap;
 use std::cell::LazyCell;
 use std::iter;
 use std::path::Path;
 use std::sync::Arc;
-use syn::__private::ToTokens;
-use code_reload_core::SourceCodeId;
 
 pub trait IFileProcessor {
     fn process(&self, file_path: &Path) -> Vec<BuildFnData>;
@@ -24,13 +23,7 @@ impl IFileProcessor for FileProcessor {
         let file_memory = unsafe { Mmap::map(&file).unwrap() };
 
         let build_fn_datas = self.extract(file_path, &file_memory);
-        for (fn_syntax_number, build_fn_data) in build_fn_datas.iter().enumerate() {
-            log!(
-                "fn_syntax №{}:\n'{}': '{}'",
-                fn_syntax_number,
-                build_fn_data.ident().to_token_stream(),
-                build_fn_data.bare_signature().to_token_stream()
-            );
+        for build_fn_data in build_fn_datas.iter() {
             let source_code_id = build_fn_data.source_code_id();
             log!("[build] source_code_id: {source_code_id}");
         }
@@ -55,14 +48,12 @@ impl FileProcessor {
     const ATTRIBUTE_TAIL: &'static [u8] = b"(runtime)]"; // TODO - add test that value in parenthesis this is equal to `code_reload_core::constants::RUNTIME_TARGET_KEYWORD`
     const ATTRIBUTE_TAIL_LEN: usize = Self::ATTRIBUTE_TAIL.len();
 
-    fn extract(&self, file_path_ref: &Path, byte_str: &[u8]) -> Vec<BuildFnData> {
+    fn extract(&self, file_path: &Path, byte_str: &[u8]) -> Vec<BuildFnData> {
         let line_indices = LazyCell::new(|| {
             iter::once(0)
                 .chain(memchr::memchr_iter(b'\n', byte_str).map(|x| x + 1))
                 .collect::<Vec<_>>()
         });
-        
-        log!("line_indices: {:?}", *line_indices);
 
         let attribute_body_indices: Vec<_> =
             memchr::memmem::find_iter(&byte_str, Self::ATTRIBUTE_BODY).collect();
@@ -80,14 +71,10 @@ impl FileProcessor {
                 let fn_syntax_byte_str = str::from_utf8(fn_syntax_byte_str).unwrap();
                 let item_fn = syn::parse_str(fn_syntax_byte_str).unwrap();
 
-                let file_path = file_path_ref.to_owned();
-                let line_index = self.get_line_index(attribute_borders.start_index + 1, &line_indices);
+                let line_index =
+                    self.get_line_index(attribute_borders.start_index + 1, &line_indices);
                 let column = attribute_borders.start_index + 1 - line_indices[line_index];
-                let source_code_id = SourceCodeId {
-                    file_path,
-                    line: line_index + 1,
-                    column,
-                };
+                let source_code_id = SourceCodeId::new(file_path, line_index + 1, column);
                 let build_fn_data = self.item_fn_mapper.map(item_fn, source_code_id);
                 return Some(build_fn_data);
             })

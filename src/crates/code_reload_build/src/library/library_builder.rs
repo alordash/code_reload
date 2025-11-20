@@ -2,6 +2,7 @@ use crate::debug_log::log;
 use crate::fs::ISourceFilePathsProvider;
 use crate::library::IFileProcessor;
 use crate::{IOutputGenerator, IOutputWriter};
+use code_reload_core::constants;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
@@ -44,7 +45,6 @@ impl LibraryBuilder {
         let output = self.output_generator.generate(all_build_fn_datas);
         self.output_writer.write(code_dir_name, &output).unwrap();
 
-        log!("output:");
-        log!("{}", output);
+        log!("done, output length: {}", output.len());
     }
 }

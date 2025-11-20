@@ -41,8 +41,6 @@ impl MetadataProcessor {
     }
 
     fn get_crate_lib_name(&self, manifest_path: String) -> Option<String> {
-        println!("manifest_path = '{manifest_path}'");
-
         let manifest_file = std::fs::OpenOptions::new()
             .read(true)
             .open(&manifest_path)
