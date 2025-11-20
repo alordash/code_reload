@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/code_reload", "crates/code_reload_build", "crates/code_reload_core", "crates/code_reload_proc_macro", "crates/code_reload_runtime", "crates/test_library"]
+members = ["crates/code_reload", "crates/code_reload_build", "crates/code_reload_core", "crates/code_reload_proc_macro", "crates/test_library"]
 
 [workspace.dependencies]
 proc-macro2 = "1.0.95"

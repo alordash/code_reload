@@ -1,7 +1,6 @@
 use std::sync::Arc;
-use syn::ItemFn;
-use code_reload_runtime::models::FnData;
 use crate::IItemFnMapper;
+use crate::runtime::models::FnData;
 
 pub trait IFnSyntaxExtractor {
     fn extract(&self, byte_str: &[u8]) -> Vec<FnData>;

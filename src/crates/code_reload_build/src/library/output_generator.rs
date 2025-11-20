@@ -1,4 +1,4 @@
-use code_reload_runtime::models::FnData;
+use crate::runtime::models::FnData;
 
 pub trait IOutputGenerator {
     fn generate(&self, fn_datas: Vec<FnData>) -> String;
