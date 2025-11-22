@@ -1,3 +1,4 @@
+use crate::debug_log::log;
 use crate::runtime::models::BuildFnData;
 use code_reload_core::constants;
 use std::io::Write;
@@ -28,7 +29,6 @@ impl IImplTypeExporter for ImplTypeExporter {
 impl ImplTypeExporter {
     fn prepare_dir(&self) {
         let dir = &*constants::IMPL_BLOCK_TYPES_DIR;
-        println!("IMPL_BLOCK_TYPES_DIR: '{:?}'", dir);
         std::fs::create_dir_all(dir).unwrap();
     }
 
@@ -38,11 +38,11 @@ impl ImplTypeExporter {
         };
 
         let path = build_fn_data.source_code_id().get_path();
-        println!("path: '{:?}'", path);
         let file_path = constants::IMPL_BLOCK_TYPES_DIR.join(path);
         let file_dir_path = file_path.parent().unwrap();
         std::fs::create_dir_all(file_dir_path).unwrap();
-        println!("file_path: '{:?}'", file_path);
+
+        log!("writing impl block type to: '{:?}'", file_path);
         let mut file = std::fs::OpenOptions::new()
             .write(true)
             .create(true)

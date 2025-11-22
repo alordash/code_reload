@@ -23,10 +23,6 @@ impl IFileProcessor for FileProcessor {
         let file_memory = unsafe { Mmap::map(&file).unwrap() };
 
         let build_fn_datas = self.extract(file_path, &file_memory);
-        for build_fn_data in build_fn_datas.iter() {
-            let source_code_id = build_fn_data.source_code_id();
-            log!("[build] source_code_id: {source_code_id}");
-        }
 
         return build_fn_datas;
     }
@@ -63,7 +59,7 @@ impl FileProcessor {
         if attribute_body_indices.is_empty() {
             return Vec::new();
         }
-        let relative_file_path = self.prepare_source_code_relative_file_path(file_path);
+        let relative_file_path = SourceCodeId::get_source_code_relative_file_path(file_path);
         let fn_syntaxes: Vec<_> = attribute_body_indices
             .iter()
             .filter_map(|attribute_body_index| {
@@ -102,24 +98,6 @@ impl FileProcessor {
             .collect();
 
         return fn_syntaxes;
-    }
-
-    fn prepare_source_code_relative_file_path(&self, file_path: &Path) -> PathBuf {
-        let manifest_dir = &*constants::MANIFEST_DIR;
-        let absolute_file_path = merge_file_and_manifest_paths(file_path, manifest_dir);
-        println!("absolute_file_path: '{:?}'", absolute_file_path);
-        println!("prefix: '{:?}'", manifest_dir);
-        let mut parent_iter = manifest_dir.iter().peekable();
-        let mut child_iter = absolute_file_path.iter().peekable();
-        while let Some(parent_part) = parent_iter.peek()
-            && let Some(child_part) = child_iter.peek()
-            && parent_part == child_part
-        {
-            parent_iter.next();
-            child_iter.next();
-        }
-        let relative_file_path = child_iter.collect();
-        return relative_file_path;
     }
 
     fn try_get_attribute_borders(

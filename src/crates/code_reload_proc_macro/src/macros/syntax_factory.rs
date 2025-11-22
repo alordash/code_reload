@@ -1,14 +1,18 @@
 use crate::macros::data::FnData;
-use code_reload_core::constants;
+use crate::macros::IImplTypeImporter;
+use code_reload_core::{constants, SourceCodeId};
 use proc_macro2::{Literal, TokenStream};
 use quote::{format_ident, quote};
+use std::sync::Arc;
 
 pub trait ISyntaxFactory {
     fn create_for_standalone(&self, fn_data: FnData) -> TokenStream;
-    fn create_for_runtime(&self, fn_data: FnData) -> TokenStream;
+    fn create_for_runtime(&self, fn_data: FnData, source_code_id: &SourceCodeId) -> TokenStream;
 }
 
-pub struct SyntaxFactory;
+pub struct SyntaxFactory {
+    pub impl_type_importer: Arc<dyn IImplTypeImporter>,
+}
 
 impl ISyntaxFactory for SyntaxFactory {
     fn create_for_standalone(&self, fn_data: FnData) -> TokenStream {
@@ -53,7 +57,7 @@ impl ISyntaxFactory for SyntaxFactory {
         return result;
     }
 
-    fn create_for_runtime(&self, fn_data: FnData) -> TokenStream {
+    fn create_for_runtime(&self, fn_data: FnData, source_code_id: &SourceCodeId) -> TokenStream {
         let FnData {
             source_fn_syntax,
             generated_function_vis,
@@ -61,6 +65,13 @@ impl ISyntaxFactory for SyntaxFactory {
             generated_function_expr_call,
             ..
         } = fn_data;
+
+        if let Some(impl_type_block) = self.impl_type_importer.try_import(source_code_id) {
+            println!(
+                "impl_type_block: '{}'",
+                str::from_utf8(&impl_type_block).unwrap()
+            );
+        }
 
         let hotreload_module_ident = format_ident!("{}", constants::GENERATED_CODE_PREFIX);
         let hotreload_static_variable_ident =

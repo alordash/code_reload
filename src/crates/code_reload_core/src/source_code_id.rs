@@ -1,3 +1,4 @@
+use crate::constants;
 use std::fmt::{Display, Formatter};
 use std::path::{Path, PathBuf};
 
@@ -21,6 +22,23 @@ impl SourceCodeId {
             .relative_file_path
             .join(format!("{}.{}", self.line, self.column));
         return path;
+    }
+
+    // TODO - replace with service?
+    pub fn get_source_code_relative_file_path(file_path: &Path) -> PathBuf {
+        let manifest_dir = &*constants::MANIFEST_DIR;
+        let absolute_file_path = merge_file_and_manifest_paths(file_path, manifest_dir);
+        let mut parent_iter = manifest_dir.iter().peekable();
+        let mut child_iter = absolute_file_path.iter().peekable();
+        while let Some(parent_part) = parent_iter.peek()
+            && let Some(child_part) = child_iter.peek()
+            && parent_part == child_part
+        {
+            parent_iter.next();
+            child_iter.next();
+        }
+        let relative_file_path = child_iter.collect();
+        return relative_file_path;
     }
 }
 
