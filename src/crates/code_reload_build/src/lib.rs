@@ -1,7 +1,6 @@
 pub use crate::di::SERVICES;
 
 mod di;
-mod fs;
 
 mod executable;
 mod library;
