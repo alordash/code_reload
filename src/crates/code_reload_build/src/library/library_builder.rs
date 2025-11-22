@@ -46,6 +46,6 @@ impl LibraryBuilder {
         let output = self.output_generator.generate(all_build_fn_datas);
         self.output_writer.write(code_dir_name, &output).unwrap();
 
-        log!("done, output length: {}", output.len());
+        // log!("done, output length: {}", output.len());
     }
 }

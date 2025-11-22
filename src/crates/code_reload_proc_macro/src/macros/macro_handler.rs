@@ -29,7 +29,7 @@ impl IMacroHandler for MacroHandler {
             SourceCodeId::get_source_code_relative_file_path(&call_site.local_file().unwrap());
         let source_code_id =
             SourceCodeId::new(relative_file_path, call_site.line(), call_site.column());
-        println!("[proc_macro] source_code_id: {source_code_id}");
+        // println!("[proc_macro] source_code_id: {source_code_id}");
 
         let item_syntax = parse_macro_input!(proc_macro_item as Item);
 

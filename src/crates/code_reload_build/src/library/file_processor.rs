@@ -87,12 +87,12 @@ impl FileProcessor {
                 let source_code_id =
                     SourceCodeId::new(relative_file_path.clone(), line_index + 1, column);
 
-                let impl_block_type =
+                let maybe_impl_block_type =
                     self.try_get_impl_block_type(&byte_str[..attribute_borders.start_index]);
 
                 let build_fn_data =
                     self.item_fn_mapper
-                        .map(item_fn, source_code_id, impl_block_type);
+                        .map(item_fn, source_code_id, maybe_impl_block_type);
                 return Some(build_fn_data);
             })
             .collect();

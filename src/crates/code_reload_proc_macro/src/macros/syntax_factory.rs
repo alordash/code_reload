@@ -2,8 +2,9 @@ use crate::macros::data::FnData;
 use crate::macros::IImplTypeImporter;
 use code_reload_core::{constants, SourceCodeId};
 use proc_macro2::{Literal, TokenStream};
-use quote::{format_ident, quote};
-use std::sync::Arc;
+use quote::{format_ident, quote, ToTokens};
+use std::sync::{Arc, LazyLock};
+use syn::{parse_macro_input, Expr, FnArg, Pat, PatType};
 
 pub trait ISyntaxFactory {
     fn create_for_standalone(&self, fn_data: FnData) -> TokenStream;
@@ -61,23 +62,37 @@ impl ISyntaxFactory for SyntaxFactory {
         let FnData {
             source_fn_syntax,
             generated_function_vis,
-            generated_function_signature,
+            mut generated_function_signature,
             generated_function_expr_call,
             ..
         } = fn_data;
 
-        if let Some(impl_type_block) = self.impl_type_importer.try_import(source_code_id) {
-            println!(
-                "impl_type_block: '{}'",
-                str::from_utf8(&impl_type_block).unwrap()
-            );
-        }
+        let mut args = generated_function_expr_call.args;
+        // if let Some(impl_block_type) = self.impl_type_importer.try_import(source_code_id) {
+        //     let impl_block_type_str = str::from_utf8(&impl_block_type).unwrap();
+        //     let impl_block_pat_type = format!("{}: {}", Self::SELF_ARG_NAME, impl_block_type_str);
+        //     // println!("impl_block_pat_type: '{}'", impl_block_pat_type);
+        //     let self_args = generated_function_signature
+        //         .inputs
+        //         .iter_mut()
+        //         .filter(|x| match *x {
+        //             FnArg::Receiver(_) => true,
+        //             FnArg::Typed(_) => false,
+        //         });
+        //     for self_arg in self_args {
+        //         *self_arg = FnArg::Typed(syn::parse_str(&impl_block_pat_type).unwrap());
+        //         *args
+        //             .iter_mut()
+        //             .filter(|arg| arg.to_token_stream().to_string().contains("self"))
+        //             .next()
+        //             .unwrap() = Self::SELF_ARG.clone();
+        //     }
+        // }
 
         let hotreload_module_ident = format_ident!("{}", constants::GENERATED_CODE_PREFIX);
         let hotreload_static_variable_ident =
             format_ident!("{}", constants::GENERATED_STATIC_HOTRELOAD_VARIABLE_NAME);
         let source_fn_ident = &generated_function_signature.ident;
-        let args = generated_function_expr_call.args;
 
         let result = quote! {
             #generated_function_vis #generated_function_signature {
@@ -93,4 +108,9 @@ impl ISyntaxFactory for SyntaxFactory {
 
         return result;
     }
+}
+
+impl SyntaxFactory {
+    const SELF_ARG_NAME: &'static str = "__code_reload_self";
+    const SELF_ARG: LazyLock<Expr> = LazyLock::new(|| syn::parse_str(Self::SELF_ARG_NAME).unwrap());
 }

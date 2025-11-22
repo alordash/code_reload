@@ -1,3 +1,5 @@
+code_reload::runtime::add_tests_runtime!();
+
 #[hotreload(runtime)]
 pub fn first() -> i32 {
     let a = 1;

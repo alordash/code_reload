@@ -42,7 +42,7 @@ impl ImplTypeExporter {
         let file_dir_path = file_path.parent().unwrap();
         std::fs::create_dir_all(file_dir_path).unwrap();
 
-        log!("writing impl block type to: '{:?}'", file_path);
+        // log!("writing impl block type to: '{:?}'", file_path);
         let mut file = std::fs::OpenOptions::new()
             .write(true)
             .create(true)
