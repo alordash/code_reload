@@ -9,6 +9,7 @@ pub trait IImplTypeExporter {
 
 pub struct ImplTypeExporter;
 
+// TODO - need to export fool path to module and underlying impl block type (if exists) always
 impl IImplTypeExporter for ImplTypeExporter {
     fn export(&self, all_build_fn_datas: &[BuildFnData]) {
         let mut build_fn_datas = all_build_fn_datas
