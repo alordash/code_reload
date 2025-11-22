@@ -1,4 +1,5 @@
 use crate::constants;
+use std::cell::{Ref, RefCell};
 use std::fmt::{Display, Formatter};
 use std::path::{Path, PathBuf};
 
@@ -9,14 +10,19 @@ pub struct SourceCodeId {
 }
 
 impl SourceCodeId {
-    pub fn new(file_path: &Path, line: usize, column: usize) -> Self {
-        let relative_file_path =
-            merge_file_and_manifest_paths(file_path, &*constants::MANIFEST_DIR);
+    pub fn new(relative_file_path: PathBuf, line: usize, column: usize) -> Self {
         Self {
             relative_file_path,
             line,
             column,
         }
+    }
+
+    pub fn get_path(&self) -> PathBuf {
+        let path = self
+            .relative_file_path
+            .join(format!("{}.{}", self.line, self.column));
+        return path;
     }
 }
 

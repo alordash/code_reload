@@ -12,6 +12,10 @@ pub fn hotreload(
     proc_macro_attribute: proc_macro::TokenStream,
     proc_macro_item: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
+    // for var in std::env::vars() {
+    //     println!("'{}' = '{}'", var.0, var.1);
+    // }
+    
     let macro_handler = &SERVICES.macro_handler;
 
     let call_site = proc_macro::Span::call_site();

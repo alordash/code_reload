@@ -1,11 +1,11 @@
 use crate::IItemFnMapper;
 use crate::debug_log::log;
 use crate::runtime::models::BuildFnData;
-use code_reload_core::{SourceCodeId, constants};
+use code_reload_core::{SourceCodeId, constants, merge_file_and_manifest_paths};
 use memmap2::Mmap;
 use std::cell::LazyCell;
 use std::iter;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
 pub trait IFileProcessor {
@@ -60,6 +60,10 @@ impl FileProcessor {
 
         let attribute_body_indices: Vec<_> =
             memchr::memmem::find_iter(&byte_str, Self::ATTRIBUTE_BODY).collect();
+        if attribute_body_indices.is_empty() {
+            return Vec::new();
+        }
+        let relative_file_path = self.prepare_source_code_relative_file_path(file_path);
         let fn_syntaxes: Vec<_> = attribute_body_indices
             .iter()
             .filter_map(|attribute_body_index| {
@@ -84,7 +88,8 @@ impl FileProcessor {
                 let line_index =
                     self.get_line_index(attribute_borders.start_index + 1, &line_indices);
                 let column = attribute_borders.start_index + 1 - line_indices[line_index];
-                let source_code_id = SourceCodeId::new(file_path, line_index + 1, column);
+                let source_code_id =
+                    SourceCodeId::new(relative_file_path.clone(), line_index + 1, column);
 
                 let impl_block_type =
                     self.try_get_impl_block_type(&byte_str[..attribute_borders.start_index]);
@@ -97,6 +102,24 @@ impl FileProcessor {
             .collect();
 
         return fn_syntaxes;
+    }
+
+    fn prepare_source_code_relative_file_path(&self, file_path: &Path) -> PathBuf {
+        let manifest_dir = &*constants::MANIFEST_DIR;
+        let absolute_file_path = merge_file_and_manifest_paths(file_path, manifest_dir);
+        println!("absolute_file_path: '{:?}'", absolute_file_path);
+        println!("prefix: '{:?}'", manifest_dir);
+        let mut parent_iter = manifest_dir.iter().peekable();
+        let mut child_iter = absolute_file_path.iter().peekable();
+        while let Some(parent_part) = parent_iter.peek()
+            && let Some(child_part) = child_iter.peek()
+            && parent_part == child_part
+        {
+            parent_iter.next();
+            child_iter.next();
+        }
+        let relative_file_path = child_iter.collect();
+        return relative_file_path;
     }
 
     fn try_get_attribute_borders(

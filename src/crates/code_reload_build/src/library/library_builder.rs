@@ -5,6 +5,7 @@ use crate::{IOutputGenerator, IOutputWriter};
 use code_reload_core::constants;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
+use crate::library::impl_type_exporter::IImplTypeExporter;
 
 pub trait ILibraryBuilder {
     fn build(&self);
@@ -15,6 +16,7 @@ pub trait ILibraryBuilder {
 pub struct LibraryBuilder {
     pub source_file_paths_provider: Arc<dyn ISourceFilePathsProvider>,
     pub file_processor: Arc<dyn IFileProcessor>,
+    pub impl_type_exporter: Arc<dyn IImplTypeExporter>,
     pub output_generator: Arc<dyn IOutputGenerator>,
     pub output_writer: Arc<dyn IOutputWriter>,
 }
@@ -35,6 +37,10 @@ impl ILibraryBuilder for LibraryBuilder {
 
 impl LibraryBuilder {
     fn build_core(&self, code_dir_name: &str) {
+        for var in std::env::vars() {
+            log!("'{}' = '{}'", var.0, var.1);
+        }
+        
         let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
         let code_dir = Path::new(&manifest_dir).join(code_dir_name);
         let rust_file_paths = self.source_file_paths_provider.provide(&code_dir);
@@ -42,6 +48,7 @@ impl LibraryBuilder {
             .iter()
             .flat_map(|rust_file_path| self.file_processor.process(rust_file_path))
             .collect();
+        // self.impl_type_exporter.export(&all_build_fn_datas);
         let output = self.output_generator.generate(all_build_fn_datas);
         self.output_writer.write(code_dir_name, &output).unwrap();
 
