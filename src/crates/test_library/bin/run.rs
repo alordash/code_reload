@@ -12,7 +12,7 @@ fn main() {
         let result = add(a, b);
         println!("#{i}. {a} + {b} = {result}");
         
-        let mut data = Data::new();
+        let mut data = Data::new(55);
         println!("\tnew data:     {data:?}");
         println!("\tdata string: {}", data.string());
         mutate(&mut data);

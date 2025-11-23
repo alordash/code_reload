@@ -30,6 +30,8 @@ impl IItemFnMapper for ItemFnMapper {
         let mut bare_signature = self.fn_processor.get_bare_function_signature(&item_fn.sig);
         if let Some(impl_block_type) = maybe_impl_block_type {
             let impl_block_type_str = str::from_utf8(impl_block_type).unwrap();
+            let module = source_code_id.get_module();
+            let new_self_type = format!("{}::{}", module, impl_block_type_str);
             for arg in bare_signature
                 .inputs
                 .iter_mut()
@@ -39,7 +41,7 @@ impl IItemFnMapper for ItemFnMapper {
                     &arg.ty
                         .to_token_stream()
                         .to_string()
-                        .replace("Self", impl_block_type_str),
+                        .replace("Self", &new_self_type),
                 )
                 .unwrap();
             }
@@ -48,7 +50,7 @@ impl IItemFnMapper for ItemFnMapper {
                     .output
                     .to_token_stream()
                     .to_string()
-                    .replace("Self", impl_block_type_str),
+                    .replace("Self", &new_self_type),
             )
             .unwrap();
         }

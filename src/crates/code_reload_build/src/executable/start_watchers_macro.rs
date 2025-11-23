@@ -12,5 +12,3 @@ macro_rules! start_watchers {
         code_reload::runtime::start_watchers!($($tail),+)
     };
 }
-
-pub use start_watchers;

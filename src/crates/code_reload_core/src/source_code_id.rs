@@ -46,6 +46,7 @@ impl SourceCodeId {
             .chain(
                 self.relative_file_path
                     .iter()
+                    // skip first two because they correspond to "crate" (like "src/lib")
                     .skip(2)
                     .map(|x| x.to_str().unwrap()),
             )
