@@ -63,6 +63,7 @@ impl IFnProcessor for FnProcessor {
     }
 
     fn mangle_function_name(&self, fn_syntax: &mut ItemFn, source_code_id: &SourceCodeId) {
+        // TODO - maybe hash source_code_id result instead of keeping long string as a fn name
         let ident = source_code_id.get_fn_ident(&fn_syntax.sig.ident.to_string());
         fn_syntax.sig.ident = format_ident!("{}_{}", *Self::NAME_MANGLE_PREFIX, ident);
     }

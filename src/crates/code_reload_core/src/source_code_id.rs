@@ -27,7 +27,7 @@ impl SourceCodeId {
             .chain(vec![
                 self.line.to_string().as_ref(),
                 self.column.to_string().as_ref(),
-                source_fn_ident,
+                Self::normalize_path_part(source_fn_ident).as_ref(),
             ])
             .collect::<Vec<_>>()
             .join("_");
@@ -76,7 +76,7 @@ impl SourceCodeId {
         return relative_file_path;
     }
 
-    fn normalize_path_part(path_part: &str) -> String {
+    pub fn normalize_path_part(path_part: &str) -> String {
         let normalized_path_part = path_part.replace(|x| !char::is_alphanumeric(x), "_");
 
         return normalized_path_part;

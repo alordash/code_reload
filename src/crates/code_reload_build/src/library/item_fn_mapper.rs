@@ -37,11 +37,15 @@ impl IItemFnMapper for ItemFnMapper {
                 .iter_mut()
                 .filter(|arg| arg.ty.to_token_stream().to_string().contains("Self"))
             {
+                let new_ident = &arg.ty
+                                    .to_token_stream()
+                                    .to_string()
+                                    .replace("Self", &new_self_type);
+                println!("impl_block_type: '{}'", impl_block_type_str);
+                println!("source: '{:?}'", source_code_id.get_path());
+                println!("new_ident: '{}'", new_ident);
                 arg.ty = syn::parse_str(
-                    &arg.ty
-                        .to_token_stream()
-                        .to_string()
-                        .replace("Self", &new_self_type),
+                    new_ident
                 )
                 .unwrap();
             }

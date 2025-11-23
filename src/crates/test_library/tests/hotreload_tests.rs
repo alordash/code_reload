@@ -49,7 +49,7 @@ impl Model {
         self.value += 1;
     }
     
-    #[hotreload(runtime)]
+    #[hotreload]
     pub fn read_and_write(&mut self) -> i32 {
         self.value += 1;
         self.value
@@ -73,6 +73,51 @@ impl Model {
     pub fn mut_pin_mut(mut self: Pin<&mut Self>) {}
     
     #[hotreload]
+    pub fn consume(self) -> i32 {
+        self.value
+    }
+}
+
+struct RuntimeModel {
+    value: i32,
+}
+
+impl RuntimeModel {
+    #[hotreload(runtime)]
+    #[inline(never)]
+    pub fn read(&self, another_num: f32) -> i32 {
+        self.value + another_num as i32
+    }
+    
+    #[hotreload(runtime)]
+    pub fn write(&mut self) {
+        self.value += 1;
+    }
+    
+    #[hotreload(runtime)]
+    pub fn read_and_write(&mut self) -> i32 {
+        self.value += 1;
+        self.value
+    }
+
+    #[hotreload(runtime)]
+    pub fn r#static(kavo: Box<Self>, chevo: Pin<Self>) {
+        let _nothing = ();
+    }
+
+    #[hotreload(runtime)]
+    pub fn pin(self: Pin<&Self>) {}
+    
+    #[hotreload(runtime)]
+    pub fn pin_mut(self: Pin<&mut Self>) {}
+    
+    #[hotreload(runtime)]
+    pub fn mut_pin(mut self: Pin<&Self>) {}
+    
+    #[hotreload(runtime)]
+    pub fn mut_pin_mut(mut self: Pin<&mut Self>) {}
+    
+    #[hotreload(runtime)]
     pub fn consume(self) -> i32 {
         self.value
     }

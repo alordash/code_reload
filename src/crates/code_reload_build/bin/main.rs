@@ -18,7 +18,7 @@ fn main() {
     let file_path = &std::path::Path::new("crates")
         .join("test_library")
         .join("tests")
-        .join("distinguish_tests.rs");
+        .join("hotreload_tests.rs");
     let build_fn_datas = file_processor.process(file_path);
     let impl_type_exporter = &SERVICES.impl_type_exporter;
     impl_type_exporter.export(&build_fn_datas);
