@@ -19,7 +19,7 @@ impl SourceCodeId {
         }
     }
 
-    pub fn get_ident(&self) -> String {
+    pub fn get_fn_ident(&self, source_fn_ident: &str) -> String {
         let ident = self
             .relative_file_path
             .iter()
@@ -27,6 +27,7 @@ impl SourceCodeId {
             .chain(vec![
                 self.line.to_string().as_ref(),
                 self.column.to_string().as_ref(),
+                source_fn_ident,
             ])
             .collect::<Vec<_>>()
             .join("_");

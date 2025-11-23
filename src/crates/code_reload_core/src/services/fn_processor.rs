@@ -1,11 +1,11 @@
+use crate::{SourceCodeId, constants};
 use proc_macro2::Span;
-use quote::{format_ident, ToTokens};
+use quote::{ToTokens, format_ident};
 use std::cell::LazyCell;
 use std::str::FromStr;
 use syn::punctuated::Punctuated;
 use syn::token::{Bracket, Paren, Pound};
 use syn::*;
-use crate::{constants, SourceCodeId};
 
 pub trait IFnProcessor {
     fn get_bare_function_signature(&self, signature: &Signature) -> TypeBareFn;
@@ -63,9 +63,8 @@ impl IFnProcessor for FnProcessor {
     }
 
     fn mangle_function_name(&self, fn_syntax: &mut ItemFn, source_code_id: &SourceCodeId) {
-        let ident = source_code_id.get_ident();
-        fn_syntax.sig.ident =
-            format_ident!("{}_{}", *Self::NAME_MANGLE_PREFIX, ident);
+        let ident = source_code_id.get_fn_ident(&fn_syntax.sig.ident.to_string());
+        fn_syntax.sig.ident = format_ident!("{}_{}", *Self::NAME_MANGLE_PREFIX, ident);
     }
 
     fn set_inherited_visibility(&self, fn_syntax: &mut ItemFn) {
