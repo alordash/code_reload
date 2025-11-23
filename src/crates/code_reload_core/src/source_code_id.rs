@@ -1,7 +1,9 @@
 use crate::constants;
+use std::ffi::OsStr;
 use std::fmt::{Display, Formatter};
 use std::path::{Path, PathBuf};
 
+// TODO - add interface
 pub struct SourceCodeId {
     relative_file_path: PathBuf,
     line: usize,
@@ -17,6 +19,21 @@ impl SourceCodeId {
         }
     }
 
+    pub fn get_ident(&self) -> String {
+        let ident = self
+            .relative_file_path
+            .iter()
+            .map(|x| x.to_str().unwrap())
+            .chain(vec![
+                self.line.to_string().as_ref(),
+                self.column.to_string().as_ref(),
+            ])
+            .collect::<Vec<_>>()
+            .join("_");
+
+        return ident;
+    }
+
     pub fn get_path(&self) -> PathBuf {
         let path = self
             .relative_file_path
@@ -27,7 +44,7 @@ impl SourceCodeId {
     // TODO - replace with service?
     pub fn get_source_code_relative_file_path(file_path: &Path) -> PathBuf {
         let manifest_dir = &*constants::MANIFEST_DIR;
-        let absolute_file_path = merge_file_and_manifest_paths(file_path, manifest_dir);
+        let absolute_file_path = merge_file_and_manifest_paths(&file_path.with_extension(""), manifest_dir);
         let mut parent_iter = manifest_dir.iter().peekable();
         let mut child_iter = absolute_file_path.iter().peekable();
         while let Some(parent_part) = parent_iter.peek()
@@ -37,8 +54,16 @@ impl SourceCodeId {
             parent_iter.next();
             child_iter.next();
         }
-        let relative_file_path = child_iter.collect();
+        let relative_file_path = child_iter
+            .map(|x| Self::normalize_path_part(x.to_str().unwrap()))
+            .collect();
         return relative_file_path;
+    }
+
+    fn normalize_path_part(path_part: &str) -> String {
+        let normalized_path_part = path_part.replace(|x| !char::is_alphanumeric(x), "_");
+
+        return normalized_path_part;
     }
 }
 

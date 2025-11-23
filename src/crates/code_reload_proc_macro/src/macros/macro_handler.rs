@@ -33,7 +33,7 @@ impl IMacroHandler for MacroHandler {
 
         let item_syntax = parse_macro_input!(proc_macro_item as Item);
 
-        let fn_data = self.fn_data_factory.create(item_syntax);
+        let fn_data = self.fn_data_factory.create(item_syntax, &source_code_id);
 
         let result = if self.is_targeting_runtime(proc_macro_attribute) {
             self.syntax_factory

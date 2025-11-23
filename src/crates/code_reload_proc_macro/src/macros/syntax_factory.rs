@@ -62,37 +62,16 @@ impl ISyntaxFactory for SyntaxFactory {
         let FnData {
             source_fn_syntax,
             generated_function_vis,
-            mut generated_function_signature,
+            generated_function_signature,
             generated_function_expr_call,
             ..
         } = fn_data;
 
-        let mut args = generated_function_expr_call.args;
-        // if let Some(impl_block_type) = self.impl_type_importer.try_import(source_code_id) {
-        //     let impl_block_type_str = str::from_utf8(&impl_block_type).unwrap();
-        //     let impl_block_pat_type = format!("{}: {}", Self::SELF_ARG_NAME, impl_block_type_str);
-        //     // println!("impl_block_pat_type: '{}'", impl_block_pat_type);
-        //     let self_args = generated_function_signature
-        //         .inputs
-        //         .iter_mut()
-        //         .filter(|x| match *x {
-        //             FnArg::Receiver(_) => true,
-        //             FnArg::Typed(_) => false,
-        //         });
-        //     for self_arg in self_args {
-        //         *self_arg = FnArg::Typed(syn::parse_str(&impl_block_pat_type).unwrap());
-        //         *args
-        //             .iter_mut()
-        //             .filter(|arg| arg.to_token_stream().to_string().contains("self"))
-        //             .next()
-        //             .unwrap() = Self::SELF_ARG.clone();
-        //     }
-        // }
-
         let hotreload_module_ident = format_ident!("{}", constants::GENERATED_CODE_PREFIX);
         let hotreload_static_variable_ident =
             format_ident!("{}", constants::GENERATED_STATIC_HOTRELOAD_VARIABLE_NAME);
-        let source_fn_ident = &generated_function_signature.ident;
+        let source_fn_ident = &source_fn_syntax.sig.ident;
+        let args = generated_function_expr_call.args;
 
         let result = quote! {
             #generated_function_vis #generated_function_signature {

@@ -21,10 +21,12 @@ pub struct ItemFnMapper {
 impl IItemFnMapper for ItemFnMapper {
     fn map(
         &self,
-        item_fn: ItemFn,
+        mut item_fn: ItemFn,
         source_code_id: SourceCodeId,
         maybe_impl_block_type: Option<&[u8]>,
     ) -> BuildFnData {
+        self.fn_processor
+            .mangle_function_name(&mut item_fn, &source_code_id);
         let mut bare_signature = self.fn_processor.get_bare_function_signature(&item_fn.sig);
         if let Some(impl_block_type) = maybe_impl_block_type {
             let impl_block_type_str = str::from_utf8(impl_block_type).unwrap();

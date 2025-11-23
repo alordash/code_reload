@@ -5,12 +5,12 @@ use std::str::FromStr;
 use syn::punctuated::Punctuated;
 use syn::token::{Bracket, Paren, Pound};
 use syn::*;
-use crate::constants;
+use crate::{constants, SourceCodeId};
 
 pub trait IFnProcessor {
     fn get_bare_function_signature(&self, signature: &Signature) -> TypeBareFn;
 
-    fn mangle_function_name(&self, fn_syntax: &mut ItemFn);
+    fn mangle_function_name(&self, fn_syntax: &mut ItemFn, source_code_id: &SourceCodeId);
     fn set_inherited_visibility(&self, fn_syntax: &mut ItemFn);
     fn get_function_variable_name(&self, fn_syntax: &ItemFn) -> Ident;
     fn get_call_expr(
@@ -62,9 +62,10 @@ impl IFnProcessor for FnProcessor {
         return bare_fn;
     }
 
-    fn mangle_function_name(&self, fn_syntax: &mut ItemFn) {
+    fn mangle_function_name(&self, fn_syntax: &mut ItemFn, source_code_id: &SourceCodeId) {
+        let ident = source_code_id.get_ident();
         fn_syntax.sig.ident =
-            format_ident!("{}_{}", *Self::NAME_MANGLE_PREFIX, fn_syntax.sig.ident);
+            format_ident!("{}_{}", *Self::NAME_MANGLE_PREFIX, ident);
     }
 
     fn set_inherited_visibility(&self, fn_syntax: &mut ItemFn) {

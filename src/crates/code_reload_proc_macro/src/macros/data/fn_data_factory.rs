@@ -3,9 +3,10 @@ use crate::macros::{IErrorFormatter, IFnValidator, IMetadataProcessor};
 use std::sync::Arc;
 use syn::*;
 use code_reload_core::services::IFnProcessor;
+use code_reload_core::SourceCodeId;
 
 pub trait IFnDataFactory {
-    fn create(&self, item_syntax: Item) -> FnData;
+    fn create(&self, item_syntax: Item, source_code_id: &SourceCodeId) -> FnData;
 }
 
 pub struct FnDataFactory {
@@ -16,7 +17,7 @@ pub struct FnDataFactory {
 }
 
 impl IFnDataFactory for FnDataFactory {
-    fn create(&self, item_syntax: Item) -> FnData {
+    fn create(&self, item_syntax: Item, source_code_id: &SourceCodeId) -> FnData {
         let mut source_fn_syntax = match item_syntax {
             Item::Fn(fn_syntax) => fn_syntax,
             _ => {
@@ -27,7 +28,7 @@ impl IFnDataFactory for FnDataFactory {
         let dynamic_library_path = self.metadata_processor.get_dynamic_library_path();
 
         let generated_function_vis = source_fn_syntax.vis.clone();
-        let generated_function_signature = source_fn_syntax.sig.clone();
+        let mut generated_function_signature = source_fn_syntax.sig.clone();
 
         let source_function_types_signature = self
             .fn_processor
@@ -37,7 +38,7 @@ impl IFnDataFactory for FnDataFactory {
             .get_function_variable_name(&source_fn_syntax);
 
         self.fn_processor
-            .mangle_function_name(&mut source_fn_syntax);
+            .mangle_function_name(&mut source_fn_syntax, source_code_id);
         self.fn_processor
             .set_inherited_visibility(&mut source_fn_syntax);
         self.fn_processor
