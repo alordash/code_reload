@@ -10,10 +10,10 @@ pub struct Data {
 
 // TODO - can not use `runtime` in `impl`s (`Self` get's treated as HotreloadPayload and not target type)
 impl Data {
-    #[hotreload]
+    #[hotreload(runtime)]
     pub fn new() -> Self {
         Self {
-            number: 111,
+            number: 5454,
             string: String::from("quo vadis"),
         }
     }

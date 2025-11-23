@@ -1,9 +1,9 @@
 use crate::constants;
-use std::ffi::OsStr;
 use std::fmt::{Display, Formatter};
 use std::path::{Path, PathBuf};
 
 // TODO - add interface
+#[derive(Clone)]
 pub struct SourceCodeId {
     relative_file_path: PathBuf,
     line: usize,
@@ -41,10 +41,24 @@ impl SourceCodeId {
         return path;
     }
 
+    pub fn get_module(&self) -> String {
+        let module = std::iter::once("crate")
+            .chain(
+                self.relative_file_path
+                    .iter()
+                    .skip(2)
+                    .map(|x| x.to_str().unwrap()),
+            )
+            .collect::<Vec<_>>()
+            .join("::");
+        return module;
+    }
+
     // TODO - replace with service?
     pub fn get_source_code_relative_file_path(file_path: &Path) -> PathBuf {
         let manifest_dir = &*constants::MANIFEST_DIR;
-        let absolute_file_path = merge_file_and_manifest_paths(&file_path.with_extension(""), manifest_dir);
+        let absolute_file_path =
+            merge_file_and_manifest_paths(&file_path.with_extension(""), manifest_dir);
         let mut parent_iter = manifest_dir.iter().peekable();
         let mut child_iter = absolute_file_path.iter().peekable();
         while let Some(parent_part) = parent_iter.peek()

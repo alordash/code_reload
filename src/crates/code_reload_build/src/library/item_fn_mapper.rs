@@ -43,6 +43,14 @@ impl IItemFnMapper for ItemFnMapper {
                 )
                 .unwrap();
             }
+            bare_signature.output = syn::parse_str(
+                &bare_signature
+                    .output
+                    .to_token_stream()
+                    .to_string()
+                    .replace("Self", impl_block_type_str),
+            )
+            .unwrap();
         }
         let ident = item_fn.sig.ident;
         let build_fn_data =
