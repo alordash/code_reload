@@ -170,8 +170,9 @@ impl FileProcessor {
     }
 
     fn get_impl_block_type<'a>(&self, byte_str: &'a [u8]) -> &'a [u8] {
+        let open_bracket_index = memchr::memchr(b'{', byte_str).unwrap();
         let mut type_start_index = self
-            .get_last_closing_bracket_index(byte_str, b'<', b'>')
+            .get_last_closing_bracket_index(&byte_str[..open_bracket_index], b'<', b'>')
             .unwrap_or(Self::IMPL_BLOCK_START_LEN);
         while byte_str[type_start_index] == b' ' {
             type_start_index += 1;
