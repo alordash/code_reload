@@ -43,12 +43,12 @@ impl Model {
     pub fn read(&self, another_num: f32) -> i32 {
         self.value + another_num as i32
     }
-    
+
     #[hotreload]
     pub fn write(&mut self) {
         self.value += 1;
     }
-    
+
     #[hotreload]
     pub fn read_and_write(&mut self) -> i32 {
         self.value += 1;
@@ -62,16 +62,16 @@ impl Model {
 
     #[hotreload]
     pub fn pin(self: Pin<&Self>) {}
-    
+
     #[hotreload]
     pub fn pin_mut(self: Pin<&mut Self>) {}
-    
+
     #[hotreload]
     pub fn mut_pin(mut self: Pin<&Self>) {}
-    
+
     #[hotreload]
     pub fn mut_pin_mut(mut self: Pin<&mut Self>) {}
-    
+
     #[hotreload]
     pub fn consume(self) -> i32 {
         self.value
@@ -88,12 +88,12 @@ impl RuntimeModel {
     pub fn read(&self, another_num: f32) -> i32 {
         self.value + another_num as i32
     }
-    
+
     #[hotreload(runtime)]
     pub fn write(&mut self) {
         self.value += 1;
     }
-    
+
     #[hotreload(runtime)]
     pub fn read_and_write(&mut self) -> i32 {
         self.value += 1;
@@ -109,18 +109,31 @@ impl RuntimeModel {
 
     #[hotreload(runtime)]
     pub fn pin(self: Pin<&Self>) {}
-    
+
     #[hotreload(runtime)]
     pub fn pin_mut(self: Pin<&mut Self>) {}
-    
+
     #[hotreload(runtime)]
     pub fn mut_pin(mut self: Pin<&Self>) {}
-    
+
     #[hotreload(runtime)]
     pub fn mut_pin_mut(mut self: Pin<&mut Self>) {}
-    
+
     #[hotreload(runtime)]
     pub fn consume(self) -> i32 {
         self.value
+    }
+}
+
+mod submodule {
+    use code_reload::hotreload;
+
+    pub struct SubModel;
+
+    impl SubModel {
+        #[hotreload(runtime)]
+        pub fn work(&self) -> Self {
+            todo!();
+        }
     }
 }
