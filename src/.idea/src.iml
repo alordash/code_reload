@@ -10,6 +10,12 @@
       <sourceFolder url="file://$MODULE_DIR$/crates/code_reload_core/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/crates/test_library/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/crates/test_demrary/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/integration_tests/broken-default/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/integration_tests/broken/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/integration_tests/broken_runtime/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/integration_tests/default/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/integration_tests/runtime/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/integration_tests/runtime/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/crates/code_reload_proc_macro/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>

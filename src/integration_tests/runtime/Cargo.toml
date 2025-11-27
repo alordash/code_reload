@@ -1,0 +1,14 @@
+[package]
+name = "runtime"
+version = "0.1.0"
+edition = "2024"
+description = "This should compile with `runtime` feature"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+code_reload = { path = "../../crates/code_reload" }
+
+[build-dependencies]
+code_reload = { path = "../../crates/code_reload" }

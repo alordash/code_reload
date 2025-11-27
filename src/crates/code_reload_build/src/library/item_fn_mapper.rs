@@ -41,9 +41,9 @@ impl IItemFnMapper for ItemFnMapper {
                                     .to_token_stream()
                                     .to_string()
                                     .replace("Self", &new_self_type);
-                println!("impl_block_type: '{}'", impl_block_type_str);
-                println!("source: '{:?}'", source_code_id.get_path());
-                println!("new_ident: '{}'", new_ident);
+                // println!("impl_block_type: '{}'", impl_block_type_str);
+                // println!("source: '{:?}'", source_code_id.get_path());
+                // println!("new_ident: '{}'", new_ident);
                 arg.ty = syn::parse_str(
                     new_ident
                 )

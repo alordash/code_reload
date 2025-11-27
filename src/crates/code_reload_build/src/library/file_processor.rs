@@ -79,6 +79,7 @@ impl FileProcessor {
                 let fn_syntax_byte_str =
                     &byte_str[attribute_borders.end_index..=fn_syntax_byte_str_end];
                 let fn_syntax_str = str::from_utf8(fn_syntax_byte_str).unwrap();
+                println!("fn_syntax_str: {}", fn_syntax_str);
                 let item_fn = syn::parse_str(fn_syntax_str).unwrap();
 
                 let line_index =

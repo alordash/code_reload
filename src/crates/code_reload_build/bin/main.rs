@@ -19,6 +19,7 @@ fn main() {
         .join("test_library")
         .join("tests")
         .join("playground_tests.rs");
+    let file_path = Path::new(r#"C:\_RS\code_reload\src\integration_tests\default\src\lib.rs"#);
     let build_fn_datas = file_processor.process(file_path);
     let impl_type_exporter = &SERVICES.impl_type_exporter;
     impl_type_exporter.export(&build_fn_datas);
