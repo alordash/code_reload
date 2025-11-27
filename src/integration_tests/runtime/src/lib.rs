@@ -1,5 +1,7 @@
 #![allow(unused)]
 
+mod distinguish;
+
 use code_reload::hotreload;
 
 code_reload::runtime::add_runtime!();

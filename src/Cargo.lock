@@ -284,21 +284,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "test_demrary"
-version = "0.1.0"
-dependencies = [
- "code_reload",
-]
-
-[[package]]
-name = "test_library"
-version = "0.1.0"
-dependencies = [
- "code_reload",
- "test_demrary",
-]
-
-[[package]]
 name = "unicode-ident"
 version = "1.0.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"

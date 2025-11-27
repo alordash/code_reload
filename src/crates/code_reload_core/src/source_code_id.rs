@@ -47,9 +47,13 @@ impl SourceCodeId {
             .chain(
                 self.relative_file_path
                     .iter()
-                    // skip first two because they correspond to "crate" (like "src/lib")
-                    .skip(2)
-                    .map(|x| x.to_str().unwrap()),
+                    .map(|x| x.to_str().unwrap())
+                    // skip first it corresponds to "crate" (like "src" in "src/lib")
+                    .skip(1)
+                    .skip_while(|x| match *x {
+                        "lib" => true,
+                        _ => false,
+                    }),
             )
             .collect::<Vec<_>>()
             .join("::");

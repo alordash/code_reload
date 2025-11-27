@@ -1,5 +1,7 @@
 #![allow(unused)]
 
+mod submodule;
+
 use code_reload::hotreload;
 use std::pin::Pin;
 
