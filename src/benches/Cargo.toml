@@ -1,0 +1,18 @@
+[package]
+name = "benches"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[[bench]]
+name = "fibonacci"
+harness = false
+
+[dependencies]
+code_reload = { path = "../crates/code_reload" }
+criterion = "0.7.0"
+
+[build-dependencies]
+code_reload = { path = "../crates/code_reload" }

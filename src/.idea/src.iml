@@ -16,6 +16,8 @@
       <sourceFolder url="file://$MODULE_DIR$/integration_tests/default/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/integration_tests/runtime/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/integration_tests/runtime/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/benches/benches" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/benches/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/crates/code_reload_proc_macro/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
