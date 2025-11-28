@@ -7,7 +7,7 @@ pub fn no_hotreload_fibonacci(n: u128) -> u128 {
 }
 
 #[hotreload]
-pub fn default_hotreload_fibonacci(n: u128) -> u128 {
+pub fn simple_hotreload_fibonacci(n: u128) -> u128 {
     fibonacci(n)
 }
 

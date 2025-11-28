@@ -1,5 +1,5 @@
 [package]
-name = "benches"
+name = "benchmarks"
 version = "0.1.0"
 edition = "2024"
 
@@ -11,8 +11,8 @@ name = "fibonacci"
 harness = false
 
 [dependencies]
-code_reload = { path = "../crates/code_reload" }
+code_reload = { path = "../src/crates/code_reload" }
 criterion = "0.7.0"
 
 [build-dependencies]
-code_reload = { path = "../crates/code_reload" }
+code_reload = { path = "../src/crates/code_reload" }

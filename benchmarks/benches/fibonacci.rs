@@ -5,15 +5,15 @@ const N: u128 = 20;
 
 fn fibonacci_benchmark(c: &mut Criterion) {
     c.bench_function("no hotreload fibonacci", |b| {
-        b.iter(|| benches::no_hotreload_fibonacci(black_box(N)))
+        b.iter(|| benchmarks::no_hotreload_fibonacci(black_box(N)))
     });
 
-    c.bench_function("default hotreload fibonacci", |b| {
-        b.iter(|| benches::default_hotreload_fibonacci(black_box(N)))
+    c.bench_function("simple hotreload fibonacci", |b| {
+        b.iter(|| benchmarks::simple_hotreload_fibonacci(black_box(N)))
     });
 
     c.bench_function("runtime hotreload fibonacci", |b| {
-        b.iter(|| benches::runtime_hotreload_fibonacci(black_box(N)))
+        b.iter(|| benchmarks::runtime_hotreload_fibonacci(black_box(N)))
     });
 }
 

@@ -4,6 +4,7 @@ use code_reload_core::services::IFnProcessor;
 use quote::ToTokens;
 use std::sync::Arc;
 use syn::{ItemFn, Type};
+use crate::debug_log::log;
 
 pub trait IItemFnMapper {
     fn map(
@@ -43,7 +44,7 @@ impl IItemFnMapper for ItemFnMapper {
                                     .replace("Self", &new_self_type);
                 // println!("impl_block_type: '{}'", impl_block_type_str);
                 // println!("source: '{:?}'", source_code_id.get_path());
-                // println!("new_ident: '{}'", new_ident);
+                println!("new_ident: '{}'", new_ident);
                 arg.ty = syn::parse_str(
                     new_ident
                 )
@@ -59,6 +60,7 @@ impl IItemFnMapper for ItemFnMapper {
             .unwrap();
         }
         let ident = item_fn.sig.ident;
+        log!("ident = '{}'", ident.to_string());
         let build_fn_data =
             BuildFnData::new(bare_signature, ident, source_code_id, maybe_impl_block_type);
         return build_fn_data;

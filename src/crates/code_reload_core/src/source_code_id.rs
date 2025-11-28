@@ -20,6 +20,11 @@ impl SourceCodeId {
     }
 
     pub fn get_fn_ident(&self, source_fn_ident: &str) -> String {
+        println!("relative_file_path: {:?}", self.relative_file_path);
+        println!(
+            "cargo::warning=relative_file_path = {:?}",
+            self.relative_file_path
+        );
         let ident = self
             .relative_file_path
             .iter()
@@ -48,10 +53,8 @@ impl SourceCodeId {
                 self.relative_file_path
                     .iter()
                     .map(|x| x.to_str().unwrap())
-                    // skip first it corresponds to "crate" (like "src" in "src/lib")
-                    .skip(1)
                     .skip_while(|x| match *x {
-                        "lib" => true,
+                        "src" | "lib" => true,
                         _ => false,
                     }),
             )
@@ -76,6 +79,7 @@ impl SourceCodeId {
         }
         let relative_file_path = child_iter
             .map(|x| Self::normalize_path_part(x.to_str().unwrap()))
+            .filter(|x| Self::filter_file_path(x))
             .collect();
         return relative_file_path;
     }
@@ -84,6 +88,13 @@ impl SourceCodeId {
         let normalized_path_part = path_part.replace(|x| !char::is_alphanumeric(x), "_");
 
         return normalized_path_part;
+    }
+
+    fn filter_file_path(path_part: &str) -> bool {
+        match path_part {
+            "src" => false,
+            _ => true,
+        }
     }
 }
 
@@ -115,15 +126,15 @@ pub fn merge_file_and_manifest_paths(file_path: &Path, manifest_path: &Path) -> 
     {
         merged.push(manifest_part);
     }
-    if let Some(unexpected_manifest_part) = manifest_parts.next() {
-        let mut remaining_manifest_parts = PathBuf::new();
-        remaining_manifest_parts.push(unexpected_manifest_part);
-        remaining_manifest_parts.extend(manifest_parts);
-        panic!(
-            "Manifest path should've been emptied, instead this remains: '{:?}'",
-            remaining_manifest_parts
-        );
-    }
+    // if let Some(unexpected_manifest_part) = manifest_parts.next() {
+    //     let mut remaining_manifest_parts = PathBuf::new();
+    //     remaining_manifest_parts.push(unexpected_manifest_part);
+    //     remaining_manifest_parts.extend(manifest_parts);
+    //     panic!(
+    //         "Manifest path should've been emptied, instead this remains: '{:?}'",
+    //         remaining_manifest_parts
+    //     );
+    // }
     merged.extend(file_path_parts);
 
     return merged;

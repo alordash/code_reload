@@ -1,7 +1,6 @@
 [workspace]
 resolver = "3"
 members = [
-    "benches",
     "crates/code_reload",
     "crates/code_reload_build",
     "crates/code_reload_core",

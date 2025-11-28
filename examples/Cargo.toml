@@ -1,0 +1,11 @@
+[workspace]
+resolver = "3"
+members = [
+    "runtime",
+    "runtime_impl",
+    "simple",
+    "simple_impl",
+]
+
+[workspace.dependencies]
+code_reload = { path = "../src/crates/code_reload" }
