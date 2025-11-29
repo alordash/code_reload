@@ -1,3 +1,5 @@
+use code_reload_core::constants;
+
 pub type LibraryVersion = u32;
 
 pub struct LibraryId {
@@ -14,11 +16,11 @@ impl LibraryId {
     }
 
     pub fn to_source_file_name(&self) -> String {
-        format!("{}.dll", self.name)
+        format!("{}.{}", self.name, constants::DYNAMIC_LIBRARY_EXTENSION)
     }
 
     pub fn to_versioned_file_name(&self) -> String {
-        format!("{}_v{}.dll", self.name, self.version)
+        format!("{}_v{}.{}", self.name, self.version, constants::DYNAMIC_LIBRARY_EXTENSION)
     }
 
     pub fn get_next_version(&self) -> Self {

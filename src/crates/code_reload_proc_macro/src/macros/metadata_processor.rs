@@ -1,3 +1,4 @@
+use code_reload_core::constants;
 use regex::Regex;
 use std::cell::{LazyCell, OnceCell};
 use std::io::BufRead;
@@ -33,9 +34,16 @@ impl MetadataProcessor {
             .expect("Unable to determine dynamic library name. It must be determined either using [lib] section and 'name' parameter in crate manifest, or using crate name.");
 
         // TODO - make file extension platform agnostic
-        let dynamic_library_path = [".", &format!("{}.dll", dynamic_library_name)]
-            .iter()
-            .collect();
+        let dynamic_library_path = [
+            ".",
+            &format!(
+                "{}.{}",
+                dynamic_library_name,
+                constants::DYNAMIC_LIBRARY_EXTENSION
+            ),
+        ]
+        .iter()
+        .collect();
 
         return dynamic_library_path;
     }

@@ -20,3 +20,10 @@ pub const OUTPUT_DIR: LazyLock<PathBuf> =
     LazyLock::new(|| std::env::var("OUT_DIR").unwrap().into());
 pub const IMPL_BLOCK_TYPES_DIR: LazyLock<PathBuf> =
     LazyLock::new(|| OUTPUT_DIR.join("impl_block_types"));
+
+#[cfg(target_os = "windows")]
+pub const DYNAMIC_LIBRARY_EXTENSION: &'static str = "dll";
+#[cfg(target_os = "macos")]
+pub const DYNAMIC_LIBRARY_EXTENSION: &'static str = "dylib";
+#[cfg(not(any(target_os = "windows", target_os = "macos")))]
+pub const DYNAMIC_LIBRARY_EXTENSION: &'static str = "so";
