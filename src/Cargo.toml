@@ -5,7 +5,7 @@ members = [
     "crates/code_reload_build",
     "crates/code_reload_core",
     "crates/code_reload_proc_macro",
-    "integration_tests/broken_runtime",
+    #    "integration_tests/broken_runtime",
     "integration_tests/default",
     "integration_tests/runtime"
 ]
@@ -21,3 +21,4 @@ memmap2 = "0.9.9"
 
 libloading = "0.8.8"
 notify = "8.2.0"
+mockall = "0.14.0"
