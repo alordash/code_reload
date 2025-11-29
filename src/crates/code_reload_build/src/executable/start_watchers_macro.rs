@@ -1,8 +1,6 @@
 // TODO - add test that verifies that "__code_reload" and "HOTRELOAD" are same as in code_reload::constants.
 #[macro_export]
 macro_rules! start_watchers {
-    () => {};
-
     ( $crate_name:ident ) => {
         code_reload::runtime::start_watch(& $crate_name :: __code_reload :: HOTRELOAD);
     };
