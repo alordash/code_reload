@@ -12,3 +12,6 @@ code_reload = { path = "../../crates/code_reload" }
 
 [build-dependencies]
 code_reload = { path = "../../crates/code_reload" }
+
+# TODO - test that this build fails using `trybuild` crate?
+# https://docs.rs/trybuild/1.0.25/trybuild/
