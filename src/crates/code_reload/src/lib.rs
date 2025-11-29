@@ -1,8 +1,9 @@
 pub use code_reload_proc_macro::hotreload;
 
+#[doc(hidden)]
 pub use code_reload_core::LibraryWrapper;
 
-// TODO - hide behind a feature
+#[cfg(feature = "runtime")]
 pub mod runtime {
     pub use code_reload_build::runtime::{
         HotreloadLibrary, IHotreloadPayload, LockedHotreloadLibrary, start_watch,

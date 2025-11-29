@@ -11,7 +11,7 @@ name = "main"
 path = "bin/main.rs"
 
 [dependencies]
-code_reload = { workspace = true }
+code_reload = { workspace = true, features = ["runtime"] }
 
 [build-dependencies]
-code_reload = { workspace = true }
+code_reload = { workspace = true, features = ["runtime"] }

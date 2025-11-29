@@ -8,7 +8,7 @@ description = "This should compile with `runtime` feature"
 crate-type = ["cdylib", "lib"]
 
 [dependencies]
-code_reload = { path = "../../crates/code_reload" }
+code_reload = { path = "../../crates/code_reload", features = ["runtime"] }
 
 [build-dependencies]
-code_reload = { path = "../../crates/code_reload" }
+code_reload = { path = "../../crates/code_reload", features = ["runtime"] }
