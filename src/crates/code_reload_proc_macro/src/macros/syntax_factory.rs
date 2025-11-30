@@ -40,7 +40,7 @@ impl ISyntaxFactory for SyntaxFactory {
         let result = quote! {
             #generated_function_vis #generated_function_signature {
                 unsafe {
-                    let dynamic_library_path = std::env::current_dir().unwrap().join(#dynamic_library_filename);
+                    let dynamic_library_path = std::env::current_exe().unwrap().parent().unwrap().join(#dynamic_library_filename);
                     let library = code_reload::LibraryWrapper::new(dynamic_library_path)
                         .map_err(|e| format!(#library_opening_error_format))
                         .unwrap();
