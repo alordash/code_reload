@@ -11,7 +11,7 @@ name = "code_reload_build_bintest"
 path = "bin/main.rs"
 
 [dependencies]
-code_reload_core = { path = "../code_reload_core" }
+code_reload_core = { workspace = true }
 
 memchr = { workspace = true }
 memmap2 = { workspace = true }
