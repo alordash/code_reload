@@ -8,4 +8,4 @@ description = "This should compile with default features"
 crate-type = ["cdylib", "lib"]
 
 [dependencies]
-code_reload = { path = "../../crates/code_reload" }
+code_reload = { workspace = true }

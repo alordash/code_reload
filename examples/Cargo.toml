@@ -8,4 +8,4 @@ members = [
 ]
 
 [workspace.dependencies]
-code_reload = { path = "../src/crates/code_reload" }
+code_reload = { path = "../src/code_reload" }

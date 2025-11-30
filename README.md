@@ -1,6 +1,8 @@
 # code_reload (⚠ WIP)
 
 Library for hotreload in Rust.
+It's primarily intended to speed-up development process.
+It's not recommended to use it in release.
 
 ## Simple usage (slower)
 
@@ -110,6 +112,21 @@ You can see usage examples in [examples](examples) directory.
 ## Limitations
 
 TODO - write about them (there are quite a few unfortunately)
+
+## Benchmarks
+
+Benchmarks are located in [benchmarks](benchmarks) folder. You can run them to see the execution time difference between
+no hotreload, simple hotreload and runtime hotreload invocation of same function.
+
+Here are benchmark results from my local PC (i7-14700HX):
+
+```
+no hotreload fibonacci time:        [16.245 ns 16.348 ns 16.469 ns]
+
+simple hotreload fibonacci time:    [95.439 µs 96.832 µs 98.403 µs]
+
+runtime hotreload fibonacci time:   [19.498 ns 19.692 ns 19.917 ns]
+```
 
 #### // TODO
 

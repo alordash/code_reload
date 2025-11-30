@@ -8,10 +8,10 @@ description = "This should NOT compile with `runtime` feature"
 crate-type = ["cdylib", "lib"]
 
 [dependencies]
-code_reload = { path = "../../crates/code_reload", features = ["runtime"] }
+code_reload = { workspace = true, features = ["runtime"] }
 
 [build-dependencies]
-code_reload = { path = "../../crates/code_reload", features = ["runtime"] }
+code_reload = { workspace = true, features = ["runtime"] }
 
 # TODO - test that this build fails using `trybuild` crate?
 # https://docs.rs/trybuild/1.0.25/trybuild/

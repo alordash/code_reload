@@ -1,0 +1,9 @@
+[workspace]
+resolver = "3"
+members = [
+    "runtime",
+    "simple"
+]
+
+[workspace.dependencies]
+code_reload = { path = "../src/code_reload" }
