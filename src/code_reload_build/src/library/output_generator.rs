@@ -1,5 +1,4 @@
 use crate::runtime::models::BuildFnData;
-use code_reload_core::{SourceCodeId, constants};
 use quote::ToTokens;
 
 pub trait IOutputGenerator {
@@ -95,12 +94,6 @@ impl OutputGenerator {
             formatted_build_fn_data.ident, symbol_name
         );
         return field_initialization;
-    }
-
-    fn generate_module_usage(&self, source_code_id: &SourceCodeId) -> String {
-        let module_usage = format!("use {}::*;", source_code_id.get_module());
-
-        return module_usage;
     }
 }
 

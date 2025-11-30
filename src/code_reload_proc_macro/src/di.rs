@@ -23,13 +23,12 @@ fn create_services() -> ServiceCollection {
         error_formatter,
     });
 
-    let impl_type_importer = Arc::new(ImplTypeImporter);
-    let syntax_factory = Arc::new(SyntaxFactory { impl_type_importer });
+    let syntax_factory = Arc::new(SyntaxFactory);
 
     let macro_handler = Arc::new(MacroHandler {
         fn_data_factory,
         syntax_factory,
     });
-    let services = ServiceCollection { macro_handler };
-    return services;
+
+    ServiceCollection { macro_handler }
 }

@@ -1,19 +1,14 @@
 use crate::macros::data::FnData;
-use crate::macros::IImplTypeImporter;
 use code_reload_core::{constants, SourceCodeId};
 use proc_macro2::{Literal, TokenStream};
-use quote::{format_ident, quote, ToTokens};
-use std::sync::{Arc, LazyLock};
-use syn::{parse_macro_input, Expr, FnArg, Pat, PatType};
+use quote::{format_ident, quote};
 
 pub trait ISyntaxFactory {
     fn create_for_standalone(&self, fn_data: FnData) -> TokenStream;
     fn create_for_runtime(&self, fn_data: FnData, source_code_id: &SourceCodeId) -> TokenStream;
 }
 
-pub struct SyntaxFactory {
-    pub impl_type_importer: Arc<dyn IImplTypeImporter>,
-}
+pub struct SyntaxFactory;
 
 impl ISyntaxFactory for SyntaxFactory {
     fn create_for_standalone(&self, fn_data: FnData) -> TokenStream {
@@ -54,7 +49,7 @@ impl ISyntaxFactory for SyntaxFactory {
             #source_fn_syntax
         };
 
-        return result;
+        result
     }
 
     fn create_for_runtime(&self, fn_data: FnData, source_code_id: &SourceCodeId) -> TokenStream {
@@ -84,11 +79,11 @@ impl ISyntaxFactory for SyntaxFactory {
             #source_fn_syntax
         };
 
-        return result;
+        result
     }
 }
 
-impl SyntaxFactory {
-    const SELF_ARG_NAME: &'static str = "__code_reload_self";
-    const SELF_ARG: LazyLock<Expr> = LazyLock::new(|| syn::parse_str(Self::SELF_ARG_NAME).unwrap());
-}
+// impl SyntaxFactory {
+//     const SELF_ARG_NAME: &'static str = "__code_reload_self";
+//     const SELF_ARG: LazyLock<Expr> = LazyLock::new(|| syn::parse_str(Self::SELF_ARG_NAME).unwrap());
+// }

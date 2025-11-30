@@ -1,4 +1,4 @@
-use crate::runtime::{CARGO_TARGET_DIR_DEBUG, IHotreloadPayload, LibraryId};
+use crate::runtime::{IHotreloadPayload, LibraryId, CARGO_TARGET_DIR_DEBUG};
 use code_reload_core::LibraryWrapper;
 use std::path::PathBuf;
 use std::sync::{LazyLock, RwLock};
@@ -23,7 +23,7 @@ impl<T: IHotreloadPayload> HotreloadLibrary<T> {
     }
 
     pub fn reload_locked(locked_self: &RwLock<Self>) {
-        let library_name = locked_self.read().unwrap().name;
+        // let library_name = locked_self.read().unwrap().name;
         // println!("Locking '{}' for reload.", library_name);
         let mut w_self = locked_self.write().unwrap();
         let previous_versioned_library_path = w_self.versioned_library_path.clone();

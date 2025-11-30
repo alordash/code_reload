@@ -42,7 +42,7 @@ impl IMacroHandler for MacroHandler {
             self.syntax_factory.create_for_standalone(fn_data)
         };
 
-        return result.into();
+        result.into()
     }
 }
 

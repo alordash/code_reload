@@ -1,6 +1,6 @@
-use crate::{SourceCodeId, constants};
+use crate::{constants, SourceCodeId};
 use proc_macro2::Span;
-use quote::{ToTokens, format_ident};
+use quote::{format_ident, ToTokens};
 use std::cell::LazyCell;
 use std::str::FromStr;
 use syn::punctuated::Punctuated;
@@ -28,7 +28,9 @@ pub struct FnProcessor;
 impl IFnProcessor for FnProcessor {
     fn get_bare_function_signature(&self, signature: &Signature) -> TypeBareFn {
         // TODO - create test cases using this model
-        let bare_fn = TypeBareFn {
+        
+
+        TypeBareFn {
             lifetimes: None,
             unsafety: signature.unsafety,
             abi: signature.abi.clone(),
@@ -57,9 +59,7 @@ impl IFnProcessor for FnProcessor {
                 comma: variadic.comma,
             }),
             output: signature.output.clone(),
-        };
-
-        return bare_fn;
+        }
     }
 
     fn mangle_function_name(&self, fn_syntax: &mut ItemFn, source_code_id: &SourceCodeId) {
@@ -79,7 +79,7 @@ impl IFnProcessor for FnProcessor {
             fn_syntax.sig.ident
         );
 
-        return function_variable_name;
+        function_variable_name
     }
 
     fn get_call_expr(
@@ -87,7 +87,9 @@ impl IFnProcessor for FnProcessor {
         function_variable_name: &Ident,
         args: &Punctuated<FnArg, Token![,]>,
     ) -> ExprCall {
-        let expr_call = ExprCall {
+        
+
+        ExprCall {
             attrs: Vec::new(),
             func: Box::new(Expr::Verbatim(function_variable_name.to_token_stream())),
             paren_token: Paren::default(),
@@ -99,9 +101,7 @@ impl IFnProcessor for FnProcessor {
                 })
                 .map(Expr::Verbatim)
                 .collect(),
-        };
-
-        return expr_call;
+        }
     }
 
     fn add_export_name_attribute(&self, fn_syntax: &mut ItemFn) {

@@ -1,7 +1,7 @@
 pub fn create(library_name: &str) -> String {
     #[cfg(target_os = "windows")]
     {
-        return format!("{}.dll", library_name);
+        return format!("{library_name}.dll");
     }
     #[cfg(target_os = "linux")]
     {

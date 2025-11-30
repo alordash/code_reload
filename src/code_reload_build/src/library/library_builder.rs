@@ -1,6 +1,5 @@
-use crate::debug_log::log;
-use crate::library::IFileProcessor;
 use crate::library::impl_type_exporter::IImplTypeExporter;
+use crate::library::IFileProcessor;
 use crate::{IOutputGenerator, IOutputWriter, ISourceFilePathsProvider};
 use std::path::Path;
 use std::sync::Arc;

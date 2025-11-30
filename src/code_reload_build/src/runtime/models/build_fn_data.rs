@@ -8,7 +8,7 @@ pub struct BuildFnData {
     impl_block_type: Option<Vec<u8>>,
 
     // TODO - it's for debug only
-    impl_block_type_string: Option<String>,
+    // impl_block_type_string: Option<String>,
 }
 
 impl BuildFnData {
@@ -23,10 +23,10 @@ impl BuildFnData {
             ident,
             source_code_id,
             impl_block_type: impl_block_type.map(Vec::from),
-            impl_block_type_string: impl_block_type
-                .map(str::from_utf8)
-                .map(Result::unwrap)
-                .map(String::from),
+            // impl_block_type_string: impl_block_type
+            //     .map(str::from_utf8)
+            //     .map(Result::unwrap)
+            //     .map(String::from),
         }
     }
 

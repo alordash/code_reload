@@ -1,9 +1,9 @@
 use crate::macros::data::FnData;
 use crate::macros::{IErrorFormatter, IFnValidator, IMetadataProcessor};
-use std::sync::Arc;
-use syn::*;
 use code_reload_core::services::IFnProcessor;
 use code_reload_core::SourceCodeId;
+use std::sync::Arc;
+use syn::*;
 
 pub trait IFnDataFactory {
     fn create(&self, item_syntax: Item, source_code_id: &SourceCodeId) -> FnData;
@@ -56,7 +56,9 @@ impl IFnDataFactory for FnDataFactory {
             .error_formatter
             .get_symbol_search_error_format(&dynamic_library_filename, &source_fn_syntax.sig.ident);
 
-        let fn_data = FnData {
+        
+
+        FnData {
             dynamic_library_filename,
             source_fn_syntax,
             source_function_types_signature,
@@ -66,8 +68,6 @@ impl IFnDataFactory for FnDataFactory {
             generated_function_expr_call,
             library_opening_error_format,
             symbol_search_error_format,
-        };
-
-        return fn_data;
+        }
     }
 }

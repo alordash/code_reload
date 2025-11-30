@@ -2,7 +2,6 @@ extern crate proc_macro;
 
 use proc_macro2::TokenStream;
 use quote::ToTokens;
-use syn::parse::Parse;
 use syn::*;
 
 fn main() {

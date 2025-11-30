@@ -1,5 +1,5 @@
-use crate::IItemFnMapper;
 use crate::runtime::models::BuildFnData;
+use crate::IItemFnMapper;
 use code_reload_core::SourceCodeId;
 use memmap2::Mmap;
 use std::cell::LazyCell;
@@ -163,7 +163,7 @@ impl FileProcessor {
             return None;
         }
 
-        let str = str::from_utf8(&byte_str[impl_block_start_index..]).unwrap();
+        // let str = str::from_utf8(&byte_str[impl_block_start_index..]).unwrap();
         let impl_block_type = self.get_impl_block_type(&byte_str[impl_block_start_index..]);
 
         return Some(impl_block_type);

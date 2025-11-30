@@ -1,4 +1,3 @@
-use crate::debug_log::log;
 use crate::runtime::models::BuildFnData;
 use code_reload_core::constants;
 use std::io::Write;

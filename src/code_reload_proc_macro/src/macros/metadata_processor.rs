@@ -11,9 +11,9 @@ pub struct MetadataProcessor;
 
 impl IMetadataProcessor for MetadataProcessor {
     fn get_dynamic_library_filename(&self) -> String {
-        return Self::DYNAMIC_LIBRARY_PATH_CACHE
+        Self::DYNAMIC_LIBRARY_PATH_CACHE
             .get_or_init(|| self.eager_get_dynamic_library_filename())
-            .clone();
+            .clone()
     }
 }
 
@@ -27,23 +27,19 @@ impl MetadataProcessor {
     fn eager_get_dynamic_library_filename(&self) -> String {
         let dynamic_library_name = std::env::var("CARGO_MANIFEST_PATH")
             .ok()
-            .map(|x| self.get_crate_lib_name(x))
-            .flatten()
+            .and_then(|x| self.get_crate_lib_name(x))
             .or_else(|| std::env::var("CARGO_PKG_NAME").ok().map(|crate_name| crate_name.replace('-', "_")))
             .expect("Unable to determine dynamic library name. It must be determined either using [lib] section and 'name' parameter in crate manifest, or using crate name.");
-        let dynamic_library_filename = library_filename::create(&dynamic_library_name);
+        
 
-        return dynamic_library_filename;
+        library_filename::create(&dynamic_library_name)
     }
 
     fn get_crate_lib_name(&self, manifest_path: String) -> Option<String> {
         let manifest_file = std::fs::OpenOptions::new()
             .read(true)
             .open(&manifest_path)
-            .expect(&format!(
-                "Unable to read manifest file located at '{}'.",
-                manifest_path
-            ));
+            .unwrap_or_else(|_| panic!("{}", "Unable to read manifest file located at '{manifest_path}'."));
         let mut manifest_lines = std::io::BufReader::new(manifest_file).lines();
 
         while let Some(Ok(line)) = manifest_lines.next() {
@@ -62,6 +58,6 @@ impl MetadataProcessor {
             }
         }
 
-        return None;
+        None
     }
 }

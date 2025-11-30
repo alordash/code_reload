@@ -1,10 +1,9 @@
 use crate::runtime::models::BuildFnData;
-use code_reload_core::SourceCodeId;
 use code_reload_core::services::IFnProcessor;
+use code_reload_core::SourceCodeId;
 use quote::ToTokens;
 use std::sync::Arc;
-use syn::{ItemFn, Type};
-use crate::debug_log::log;
+use syn::ItemFn;
 
 pub trait IItemFnMapper {
     fn map(

@@ -16,7 +16,7 @@ impl IErrorFormatter for ErrorFormatter {
         let library_opening_error_format =
             format!("Error opening shared library '{dynamic_library_filename}': {{e:?}}");
 
-        return library_opening_error_format;
+        library_opening_error_format
     }
 
     fn get_symbol_search_error_format(
@@ -28,6 +28,6 @@ impl IErrorFormatter for ErrorFormatter {
             "Error finding symbol '{source_function_export_name}' in shared library '{dynamic_library_filename}': {{e:?}}"
         );
 
-        return symbol_search_error_format;
+        symbol_search_error_format
     }
 }
