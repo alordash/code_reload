@@ -43,7 +43,7 @@ impl ISyntaxFactory for SyntaxFactory {
             #generated_function_vis #generated_function_signature {
                 unsafe {
                     let library = code_reload::LibraryWrapper::new(#dynamic_library_path_string)
-                        .map_err(|e| format!(#library_opening_error_format))
+                        .map_err(|e| format!(#library_opening_error_format, std::env::current_dir()))
                         .unwrap();
                     let #source_function_variable_name = library.get::<#source_function_types_signature>(#source_function_export_name_literal)
                         .map_err(|e| format!(#symbol_search_error_format))
