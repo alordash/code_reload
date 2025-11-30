@@ -1,6 +1,6 @@
-use crate::{constants, SourceCodeId};
+use crate::{SourceCodeId, constants};
 use proc_macro2::Span;
-use quote::{format_ident, ToTokens};
+use quote::{ToTokens, format_ident};
 use std::cell::LazyCell;
 use std::str::FromStr;
 use syn::punctuated::Punctuated;
@@ -28,7 +28,6 @@ pub struct FnProcessor;
 impl IFnProcessor for FnProcessor {
     fn get_bare_function_signature(&self, signature: &Signature) -> TypeBareFn {
         // TODO - create test cases using this model
-        
 
         TypeBareFn {
             lifetimes: None,
@@ -87,17 +86,21 @@ impl IFnProcessor for FnProcessor {
         function_variable_name: &Ident,
         args: &Punctuated<FnArg, Token![,]>,
     ) -> ExprCall {
-        
-
         ExprCall {
             attrs: Vec::new(),
             func: Box::new(Expr::Verbatim(function_variable_name.to_token_stream())),
             paren_token: Paren::default(),
             args: args
                 .iter()
+                .cloned()
                 .map(|arg| match arg {
                     FnArg::Receiver(receiver) => receiver.self_token.to_token_stream(),
-                    FnArg::Typed(typed) => typed.pat.to_token_stream(),
+                    FnArg::Typed(mut typed) => {
+                        if let Pat::Ident(ident) = typed.pat.as_mut() {
+                            ident.mutability = None;
+                        }
+                        typed.pat.to_token_stream()
+                    }
                 })
                 .map(Expr::Verbatim)
                 .collect(),

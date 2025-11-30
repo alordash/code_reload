@@ -31,7 +31,7 @@ checksum = "9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801"
 
 [[package]]
 name = "code_reload"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "code_reload_build",
  "code_reload_core",
@@ -40,7 +40,7 @@ dependencies = [
 
 [[package]]
 name = "code_reload_build"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "code_reload_core",
  "libloading",
@@ -53,7 +53,7 @@ dependencies = [
 
 [[package]]
 name = "code_reload_core"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "libloading",
  "proc-macro2",
@@ -63,7 +63,7 @@ dependencies = [
 
 [[package]]
 name = "code_reload_proc_macro"
-version = "0.0.0"
+version = "0.1.1"
 dependencies = [
  "code_reload_core",
  "proc-macro2",

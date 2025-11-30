@@ -2,6 +2,7 @@ use crate::macros::data::FnData;
 use crate::macros::{IErrorFormatter, IFnValidator, IMetadataProcessor};
 use code_reload_core::services::IFnProcessor;
 use code_reload_core::SourceCodeId;
+use quote::ToTokens;
 use std::sync::Arc;
 use syn::*;
 
@@ -49,14 +50,16 @@ impl IFnDataFactory for FnDataFactory {
         let generated_function_expr_call = self
             .fn_processor
             .get_call_expr(&source_function_variable_name, &source_fn_syntax.sig.inputs);
+        println!(
+            "generated_function_expr_call: {:?}",
+            generated_function_expr_call.to_token_stream().to_string()
+        );
         let library_opening_error_format = self
             .error_formatter
             .get_library_opening_error_format(&dynamic_library_filename);
         let symbol_search_error_format = self
             .error_formatter
             .get_symbol_search_error_format(&dynamic_library_filename, &source_fn_syntax.sig.ident);
-
-        
 
         FnData {
             dynamic_library_filename,
