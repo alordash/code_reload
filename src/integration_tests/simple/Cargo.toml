@@ -1,0 +1,11 @@
+[package]
+name = "simple"
+version = "0.1.0"
+edition = "2024"
+description = "This should compile with default features"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+code_reload = { path = "../../crates/code_reload" }

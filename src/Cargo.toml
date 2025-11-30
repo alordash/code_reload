@@ -6,7 +6,7 @@ members = [
     "crates/code_reload_core",
     "crates/code_reload_proc_macro",
     #    "integration_tests/broken_runtime",
-    "integration_tests/default",
+    "integration_tests/simple",
     "integration_tests/runtime"
 ]
 

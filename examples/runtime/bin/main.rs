@@ -1,4 +1,4 @@
-use runtime::*;
+use crate::*;
 
 fn main() {
     code_reload::runtime::start_watchers!(runtime);
