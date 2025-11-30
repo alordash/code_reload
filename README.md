@@ -4,6 +4,8 @@ Library for hotreload in Rust.
 It's primarily intended to speed-up development process.
 It's not recommended to use it in release.
 
+// TODO - add cool but short demo gif
+
 ## Simple usage (slower)
 
 Your crate must be `lib` crate. You can have separate binaries in it though.  
