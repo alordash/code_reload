@@ -1,4 +1,4 @@
-use code_reload_core::constants;
+use code_reload_core::library_name;
 
 pub type LibraryVersion = u32;
 
@@ -16,11 +16,11 @@ impl LibraryId {
     }
 
     pub fn to_source_file_name(&self) -> String {
-        format!("{}.{}", self.name, constants::DYNAMIC_LIBRARY_EXTENSION)
+        library_name::create(&self.name)
     }
 
     pub fn to_versioned_file_name(&self) -> String {
-        format!("{}_v{}.{}", self.name, self.version, constants::DYNAMIC_LIBRARY_EXTENSION)
+        format!("{}_v{}", self.to_source_file_name(), self.version)
     }
 
     pub fn get_next_version(&self) -> Self {

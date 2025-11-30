@@ -1,8 +1,8 @@
-use code_reload_core::constants;
 use regex::Regex;
 use std::cell::{LazyCell, OnceCell};
 use std::io::BufRead;
 use std::path::PathBuf;
+use code_reload_core::library_name;
 
 pub trait IMetadataProcessor {
     fn get_dynamic_library_path(&self) -> PathBuf;
@@ -36,11 +36,7 @@ impl MetadataProcessor {
         // TODO - make file extension platform agnostic
         let dynamic_library_path = [
             ".",
-            &format!(
-                "{}.{}",
-                dynamic_library_name,
-                constants::DYNAMIC_LIBRARY_EXTENSION
-            ),
+            &library_name::create(&dynamic_library_name),
         ]
         .iter()
         .collect();
