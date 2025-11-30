@@ -1,8 +1,8 @@
+use code_reload_core::library_filename;
 use regex::Regex;
 use std::cell::{LazyCell, OnceCell};
 use std::io::BufRead;
 use std::path::PathBuf;
-use code_reload_core::library_name;
 
 pub trait IMetadataProcessor {
     fn get_dynamic_library_path(&self) -> PathBuf;
@@ -33,13 +33,8 @@ impl MetadataProcessor {
             .or_else(|| std::env::var("CARGO_PKG_NAME").ok().map(|crate_name| crate_name.replace('-', "_")))
             .expect("Unable to determine dynamic library name. It must be determined either using [lib] section and 'name' parameter in crate manifest, or using crate name.");
 
-        // TODO - make file extension platform agnostic
-        let dynamic_library_path = [
-            ".",
-            &library_name::create(&dynamic_library_name),
-        ]
-        .iter()
-        .collect();
+        let library_filename = &library_filename::create(&dynamic_library_name);
+        let dynamic_library_path = std::env::current_dir().unwrap().join(library_filename);
 
         return dynamic_library_path;
     }

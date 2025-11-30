@@ -16,7 +16,7 @@ impl IErrorFormatter for ErrorFormatter {
     fn get_library_opening_error_format(&self, dynamic_library_path: &PathBuf) -> String {
         let dynamic_library_path_string = dynamic_library_path.to_str().unwrap();
         let library_opening_error_format =
-            format!("Error opening shared library '{dynamic_library_path_string}' in directory '{{:?}}': {{e:?}}");
+            format!("Error opening shared library '{dynamic_library_path_string}': {{e:?}}");
 
         return library_opening_error_format;
     }

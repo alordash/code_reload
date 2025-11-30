@@ -28,7 +28,7 @@ impl IFnDataFactory for FnDataFactory {
         let dynamic_library_path = self.metadata_processor.get_dynamic_library_path();
 
         let generated_function_vis = source_fn_syntax.vis.clone();
-        let mut generated_function_signature = source_fn_syntax.sig.clone();
+        let generated_function_signature = source_fn_syntax.sig.clone();
 
         let source_function_types_signature = self
             .fn_processor

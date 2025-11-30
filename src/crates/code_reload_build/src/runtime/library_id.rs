@@ -1,4 +1,4 @@
-use code_reload_core::library_name;
+use code_reload_core::library_filename;
 
 pub type LibraryVersion = u32;
 
@@ -16,7 +16,7 @@ impl LibraryId {
     }
 
     pub fn to_source_file_name(&self) -> String {
-        library_name::create(&self.name)
+        library_filename::create(&self.name)
     }
 
     pub fn to_versioned_file_name(&self) -> String {
