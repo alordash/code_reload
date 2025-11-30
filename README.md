@@ -103,6 +103,15 @@ fn add(a: i32, b: i32) -> i32 {
 Run your binary application, change `add` function and then try to rebuild it without stopping. You should see that
 `add` now returns different value!
 
-### // TODO
+## Examples
 
+You can see usage examples in [examples](examples) directory.
+
+## Limitations
+
+TODO - write about them (there are quite a few unfortunately)
+
+#### // TODO
+
+- [ ] write about limitations
 - [ ] write about `code_reload::runtime::build` for tests and separate directories
