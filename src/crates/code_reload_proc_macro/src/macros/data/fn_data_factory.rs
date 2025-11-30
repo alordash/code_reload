@@ -25,7 +25,7 @@ impl IFnDataFactory for FnDataFactory {
             }
         };
         self.fn_validator.validate(&source_fn_syntax);
-        let dynamic_library_path = self.metadata_processor.get_dynamic_library_path();
+        let dynamic_library_filename = self.metadata_processor.get_dynamic_library_filename();
 
         let generated_function_vis = source_fn_syntax.vis.clone();
         let generated_function_signature = source_fn_syntax.sig.clone();
@@ -51,13 +51,13 @@ impl IFnDataFactory for FnDataFactory {
             .get_call_expr(&source_function_variable_name, &source_fn_syntax.sig.inputs);
         let library_opening_error_format = self
             .error_formatter
-            .get_library_opening_error_format(&dynamic_library_path);
+            .get_library_opening_error_format(&dynamic_library_filename);
         let symbol_search_error_format = self
             .error_formatter
-            .get_symbol_search_error_format(&dynamic_library_path, &source_fn_syntax.sig.ident);
+            .get_symbol_search_error_format(&dynamic_library_filename, &source_fn_syntax.sig.ident);
 
         let fn_data = FnData {
-            dynamic_library_path,
+            dynamic_library_filename,
             source_fn_syntax,
             source_function_types_signature,
             source_function_variable_name,

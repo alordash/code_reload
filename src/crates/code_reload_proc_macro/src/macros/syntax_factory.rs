@@ -18,7 +18,7 @@ pub struct SyntaxFactory {
 impl ISyntaxFactory for SyntaxFactory {
     fn create_for_standalone(&self, fn_data: FnData) -> TokenStream {
         let FnData {
-            dynamic_library_path,
+            dynamic_library_filename,
             source_fn_syntax,
             source_function_types_signature,
             source_function_variable_name,
@@ -32,8 +32,6 @@ impl ISyntaxFactory for SyntaxFactory {
         let source_function_export_name_literal =
             Literal::byte_string(source_fn_syntax.sig.ident.to_string().as_bytes());
 
-        let dynamic_library_path_string = dynamic_library_path.to_str().unwrap();
-
         println!(
             "source_function_export_name_literal: {:?}",
             source_function_export_name_literal.to_string()
@@ -42,7 +40,8 @@ impl ISyntaxFactory for SyntaxFactory {
         let result = quote! {
             #generated_function_vis #generated_function_signature {
                 unsafe {
-                    let library = code_reload::LibraryWrapper::new(#dynamic_library_path_string)
+                    let dynamic_library_path = std::env::current_dir().unwrap().join(#dynamic_library_filename);
+                    let library = code_reload::LibraryWrapper::new(dynamic_library_path)
                         .map_err(|e| format!(#library_opening_error_format))
                         .unwrap();
                     let #source_function_variable_name = library.get::<#source_function_types_signature>(#source_function_export_name_literal)
