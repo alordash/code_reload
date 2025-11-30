@@ -15,7 +15,14 @@ pub struct Foo;
 
 pub struct Bar;
 
-impl Foo { #[hotreload(runtime)] pub fn work2(&self) {} } impl Bar { #[hotreload(runtime)] pub fn work2(&self) {} }
+impl Foo {
+    #[hotreload(runtime)]
+    pub fn work2(&self) {}
+}
+impl Bar {
+    #[hotreload(runtime)]
+    pub fn work2(&self) {}
+}
 
 #[hotreload(runtime)]
 pub fn regular_fn() -> i32 {

@@ -12,7 +12,5 @@ pub fn hotreload(
 ) -> proc_macro::TokenStream {
     let macro_handler = &SERVICES.macro_handler;
 
-    
-
     macro_handler.handle(proc_macro_attribute, proc_macro_item)
 }

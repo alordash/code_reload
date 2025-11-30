@@ -18,7 +18,8 @@ fn main() {
     //     .join("test_library")
     //     .join("tests")
     //     .join("playground_tests.rs");
-    let file_path = Path::new(r#"C:\Users\alordash\Documents\PROJECTS\code_reload\benchmarks\src\lib.rs"#);
+    let file_path =
+        Path::new(r#"C:\Users\alordash\Documents\PROJECTS\code_reload\benchmarks\src\lib.rs"#);
     let build_fn_datas = file_processor.process(file_path);
     let impl_type_exporter = &SERVICES.impl_type_exporter;
     impl_type_exporter.export(&build_fn_datas);

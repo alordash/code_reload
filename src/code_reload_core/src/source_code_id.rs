@@ -25,10 +25,8 @@ impl SourceCodeId {
         //     "cargo::warning=relative_file_path = {:?}",
         //     self.relative_file_path
         // );
-        
 
-        self
-            .relative_file_path
+        self.relative_file_path
             .iter()
             .map(|x| x.to_str().unwrap())
             .chain(vec![
@@ -41,14 +39,11 @@ impl SourceCodeId {
     }
 
     pub fn get_path(&self) -> PathBuf {
-        
-        self
-            .relative_file_path
+        self.relative_file_path
             .join(format!("{}.{}", self.line, self.column))
     }
 
     pub fn get_module(&self) -> String {
-        
         std::iter::once("crate")
             .chain(
                 self.relative_file_path
@@ -77,7 +72,7 @@ impl SourceCodeId {
             parent_iter.next();
             child_iter.next();
         }
-        
+
         child_iter
             .map(|x| Self::normalize_path_part(x.to_str().unwrap()))
             .filter(|x| Self::filter_file_path(x))
@@ -85,8 +80,6 @@ impl SourceCodeId {
     }
 
     pub fn normalize_path_part(path_part: &str) -> String {
-        
-
         path_part.replace(|x| !char::is_alphanumeric(x), "_")
     }
 

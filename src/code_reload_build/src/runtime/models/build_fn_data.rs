@@ -6,7 +6,6 @@ pub struct BuildFnData {
     ident: Ident,
     source_code_id: SourceCodeId,
     impl_block_type: Option<Vec<u8>>,
-
     // TODO - it's for debug only
     // impl_block_type_string: Option<String>,
 }

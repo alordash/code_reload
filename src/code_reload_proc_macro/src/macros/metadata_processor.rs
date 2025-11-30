@@ -30,7 +30,6 @@ impl MetadataProcessor {
             .and_then(|x| self.get_crate_lib_name(x))
             .or_else(|| std::env::var("CARGO_PKG_NAME").ok().map(|crate_name| crate_name.replace('-', "_")))
             .expect("Unable to determine dynamic library name. It must be determined either using [lib] section and 'name' parameter in crate manifest, or using crate name.");
-        
 
         library_filename::create(&dynamic_library_name)
     }
@@ -39,7 +38,12 @@ impl MetadataProcessor {
         let manifest_file = std::fs::OpenOptions::new()
             .read(true)
             .open(&manifest_path)
-            .unwrap_or_else(|_| panic!("{}", "Unable to read manifest file located at '{manifest_path}'."));
+            .unwrap_or_else(|_| {
+                panic!(
+                    "{}",
+                    "Unable to read manifest file located at '{manifest_path}'."
+                )
+            });
         let mut manifest_lines = std::io::BufReader::new(manifest_file).lines();
 
         while let Some(Ok(line)) = manifest_lines.next() {

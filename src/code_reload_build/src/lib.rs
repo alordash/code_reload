@@ -2,10 +2,10 @@ pub use crate::di::SERVICES;
 
 mod di;
 
-mod executable;
-mod library;
 mod add_runtime_macros;
 mod debug_log;
+mod executable;
+mod library;
 
 pub mod runtime;
 

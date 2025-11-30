@@ -1,5 +1,5 @@
-use crate::library::impl_type_exporter::IImplTypeExporter;
 use crate::library::IFileProcessor;
+use crate::library::impl_type_exporter::IImplTypeExporter;
 use crate::{IOutputGenerator, IOutputWriter, ISourceFilePathsProvider};
 use std::path::Path;
 use std::sync::Arc;

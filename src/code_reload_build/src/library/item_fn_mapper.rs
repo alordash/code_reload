@@ -1,6 +1,6 @@
 use crate::runtime::models::BuildFnData;
-use code_reload_core::services::IFnProcessor;
 use code_reload_core::SourceCodeId;
+use code_reload_core::services::IFnProcessor;
 use quote::ToTokens;
 use std::sync::Arc;
 use syn::ItemFn;
@@ -37,17 +37,15 @@ impl IItemFnMapper for ItemFnMapper {
                 .iter_mut()
                 .filter(|arg| arg.ty.to_token_stream().to_string().contains("Self"))
             {
-                let new_ident = &arg.ty
-                                    .to_token_stream()
-                                    .to_string()
-                                    .replace("Self", &new_self_type);
+                let new_ident = &arg
+                    .ty
+                    .to_token_stream()
+                    .to_string()
+                    .replace("Self", &new_self_type);
                 // println!("impl_block_type: '{}'", impl_block_type_str);
                 // println!("source: '{:?}'", source_code_id.get_path());
                 // println!("new_ident: '{}'", new_ident);
-                arg.ty = syn::parse_str(
-                    new_ident
-                )
-                .unwrap();
+                arg.ty = syn::parse_str(new_ident).unwrap();
             }
             bare_signature.output = syn::parse_str(
                 &bare_signature
