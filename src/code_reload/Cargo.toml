@@ -4,9 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-code_reload_core = { path = "../code_reload_core" }
-code_reload_proc_macro = { path = "../code_reload_proc_macro" }
-code_reload_build = { path = "../code_reload_build", optional = true }
+code_reload_core = { version = "0.1.0", path = "../code_reload_core" }
+code_reload_proc_macro = { version = "0.1.0", path = "../code_reload_proc_macro" }
+code_reload_build = { version = "0.1.0", path = "../code_reload_build", optional = true }
 
 [features]
 runtime = ["dep:code_reload_build"]
