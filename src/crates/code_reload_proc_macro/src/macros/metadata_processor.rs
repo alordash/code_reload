@@ -1,7 +1,7 @@
+use code_reload_core::library_filename;
 use regex::Regex;
 use std::cell::{LazyCell, OnceCell};
 use std::io::BufRead;
-use std::path::PathBuf;
 
 pub trait IMetadataProcessor {
     fn get_dynamic_library_filename(&self) -> String;
@@ -25,12 +25,13 @@ impl MetadataProcessor {
     const DYNAMIC_LIBRARY_PATH_CACHE: OnceCell<String> = OnceCell::new();
 
     fn eager_get_dynamic_library_filename(&self) -> String {
-        let dynamic_library_filename = std::env::var("CARGO_MANIFEST_PATH")
+        let dynamic_library_name = std::env::var("CARGO_MANIFEST_PATH")
             .ok()
             .map(|x| self.get_crate_lib_name(x))
             .flatten()
             .or_else(|| std::env::var("CARGO_PKG_NAME").ok().map(|crate_name| crate_name.replace('-', "_")))
             .expect("Unable to determine dynamic library name. It must be determined either using [lib] section and 'name' parameter in crate manifest, or using crate name.");
+        let dynamic_library_filename = library_filename::create(&dynamic_library_name);
 
         return dynamic_library_filename;
     }
