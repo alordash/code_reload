@@ -32,10 +32,10 @@ impl ISyntaxFactory for SyntaxFactory {
         let source_function_export_name_literal =
             Literal::byte_string(source_fn_syntax.sig.ident.to_string().as_bytes());
 
-        println!(
-            "source_function_export_name_literal: {:?}",
-            source_function_export_name_literal.to_string()
-        );
+        // println!(
+        //     "source_function_export_name_literal: {:?}",
+        //     source_function_export_name_literal.to_string()
+        // );
 
         let result = quote! {
             #generated_function_vis #generated_function_signature {

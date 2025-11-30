@@ -20,11 +20,11 @@ impl SourceCodeId {
     }
 
     pub fn get_fn_ident(&self, source_fn_ident: &str) -> String {
-        println!("relative_file_path: {:?}", self.relative_file_path);
-        println!(
-            "cargo::warning=relative_file_path = {:?}",
-            self.relative_file_path
-        );
+        // println!("relative_file_path: {:?}", self.relative_file_path);
+        // println!(
+        //     "cargo::warning=relative_file_path = {:?}",
+        //     self.relative_file_path
+        // );
         let ident = self
             .relative_file_path
             .iter()

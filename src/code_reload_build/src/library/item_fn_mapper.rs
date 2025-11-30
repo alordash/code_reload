@@ -44,7 +44,7 @@ impl IItemFnMapper for ItemFnMapper {
                                     .replace("Self", &new_self_type);
                 // println!("impl_block_type: '{}'", impl_block_type_str);
                 // println!("source: '{:?}'", source_code_id.get_path());
-                println!("new_ident: '{}'", new_ident);
+                // println!("new_ident: '{}'", new_ident);
                 arg.ty = syn::parse_str(
                     new_ident
                 )
@@ -60,7 +60,7 @@ impl IItemFnMapper for ItemFnMapper {
             .unwrap();
         }
         let ident = item_fn.sig.ident;
-        log!("ident = '{}'", ident.to_string());
+        // log!("ident = '{}'", ident.to_string());
         let build_fn_data =
             BuildFnData::new(bare_signature, ident, source_code_id, maybe_impl_block_type);
         return build_fn_data;

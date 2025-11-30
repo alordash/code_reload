@@ -24,18 +24,18 @@ impl<T: IHotreloadPayload> HotreloadLibrary<T> {
 
     pub fn reload_locked(locked_self: &RwLock<Self>) {
         let library_name = locked_self.read().unwrap().name;
-        println!("Locking '{}' for reload.", library_name);
+        // println!("Locking '{}' for reload.", library_name);
         let mut w_self = locked_self.write().unwrap();
         let previous_versioned_library_path = w_self.versioned_library_path.clone();
         w_self.reload();
         drop(w_self);
-        println!("Unlocked '{}' after reload.", library_name);
+        // println!("Unlocked '{}' after reload.", library_name);
 
         std::fs::remove_file(&previous_versioned_library_path).unwrap();
-        println!(
-            "Cleared previous '{}' library file (path: '{:?}')",
-            library_name, previous_versioned_library_path
-        );
+        // println!(
+        //     "Cleared previous '{}' library file (path: '{:?}')",
+        //     library_name, previous_versioned_library_path
+        // );
     }
 
     pub fn get_source_library_path(&self) -> PathBuf {
