@@ -1,6 +1,6 @@
 [package]
 name = "code_reload_build"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "Everything related to `build.rs` and runtime."
 license = "MIT"

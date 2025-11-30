@@ -8,10 +8,10 @@ members = [
 ]
 
 [workspace.dependencies]
-code_reload = { version = "0.1.0", path = "code_reload" }
-code_reload_build = { version = "0.1.0", path = "code_reload_build" }
-code_reload_core = { version = "0.1.0", path = "code_reload_core" }
-code_reload_proc_macro = { version = "0.1.0", path = "code_reload_proc_macro" }
+# TODO - is there a way to specify this versions only in one place? or this is meaningless?
+code_reload_build = { version = "0.1.1", path = "code_reload_build" }
+code_reload_core = { version = "0.1.1", path = "code_reload_core" }
+code_reload_proc_macro = { version = "0.1.1", path = "code_reload_proc_macro" }
 
 proc-macro2 = "1.0.95"
 quote = "1.0.40"
