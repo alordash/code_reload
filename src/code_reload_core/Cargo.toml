@@ -2,6 +2,11 @@
 name = "code_reload_core"
 version = "0.1.0"
 edition = "2024"
+description = "Common stuff for code_reload."
+license = "MIT"
+homepage = "https://github.com/alordash/code_reload"
+repository = "https://github.com/alordash/code_reload"
+readme = "README.md"
 
 [dependencies]
 proc-macro2 = { workspace = true }

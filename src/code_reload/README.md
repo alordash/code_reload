@@ -1,1 +1,1 @@
-Public API entrypoint.
+Public API entrypoint. More info in repository root's [README.md](../../README.md).

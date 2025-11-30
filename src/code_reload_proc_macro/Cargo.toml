@@ -2,6 +2,11 @@
 name = "code_reload_proc_macro"
 version = "0.1.0"
 edition = "2018"
+description = "Everything related to `#[hotreload]` attribute."
+license = "MIT"
+homepage = "https://github.com/alordash/code_reload"
+repository = "https://github.com/alordash/code_reload"
+readme = "README.md"
 
 [lib]
 name = "code_reload_proc_macro"

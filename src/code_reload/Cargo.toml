@@ -2,6 +2,11 @@
 name = "code_reload"
 version = "0.1.0"
 edition = "2024"
+description = "Library for easy hotreload of Rust code."
+license = "MIT"
+homepage = "https://github.com/alordash/code_reload"
+repository = "https://github.com/alordash/code_reload"
+readme = "../../README.md"
 
 [dependencies]
 code_reload_core = { workspace = true }

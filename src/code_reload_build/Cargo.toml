@@ -2,6 +2,11 @@
 name = "code_reload_build"
 version = "0.1.0"
 edition = "2024"
+description = "Everything related to `build.rs` and runtime."
+license = "MIT"
+homepage = "https://github.com/alordash/code_reload"
+repository = "https://github.com/alordash/code_reload"
+readme = "README.md"
 
 [lib]
 name = "code_reload_build"
