@@ -5,7 +5,7 @@ pub struct BuildFnData {
     bare_signature: TypeBareFn,
     ident: Ident,
     source_code_id: SourceCodeId,
-    impl_block_type: Option<Vec<u8>>,
+    impl_block_type: Option<String>,
     // TODO - it's for debug only
     // impl_block_type_string: Option<String>,
 }
@@ -15,13 +15,13 @@ impl BuildFnData {
         bare_signature: TypeBareFn,
         ident: Ident,
         source_code_id: SourceCodeId,
-        impl_block_type: Option<&[u8]>,
+        impl_block_type: Option<String>,
     ) -> Self {
         Self {
             bare_signature,
             ident,
             source_code_id,
-            impl_block_type: impl_block_type.map(Vec::from),
+            impl_block_type,
             // impl_block_type_string: impl_block_type
             //     .map(str::from_utf8)
             //     .map(Result::unwrap)
@@ -41,7 +41,7 @@ impl BuildFnData {
         &self.source_code_id
     }
 
-    pub fn impl_block_type(&self) -> Option<&[u8]> {
+    pub fn impl_block_type(&self) -> Option<&str> {
         self.impl_block_type.as_deref()
     }
 }

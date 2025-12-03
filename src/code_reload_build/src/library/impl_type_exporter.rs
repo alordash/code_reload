@@ -48,6 +48,6 @@ impl ImplTypeExporter {
             .create(true)
             .open(file_path)
             .unwrap();
-        file.write(impl_block_type).unwrap();
+        file.write(impl_block_type.as_bytes()).unwrap();
     }
 }

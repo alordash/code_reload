@@ -10,7 +10,7 @@ pub trait IItemFnMapper {
         &self,
         item_fn: ItemFn,
         source_code_id: SourceCodeId,
-        maybe_impl_block_type: Option<&[u8]>,
+        maybe_impl_block_type: Option<String>,
     ) -> BuildFnData;
 }
 
@@ -23,15 +23,14 @@ impl IItemFnMapper for ItemFnMapper {
         &self,
         mut item_fn: ItemFn,
         source_code_id: SourceCodeId,
-        maybe_impl_block_type: Option<&[u8]>,
+        maybe_impl_block_type: Option<String>,
     ) -> BuildFnData {
         self.fn_processor
             .mangle_function_name(&mut item_fn, &source_code_id);
         let mut bare_signature = self.fn_processor.get_bare_function_signature(&item_fn.sig);
-        if let Some(impl_block_type) = maybe_impl_block_type {
-            let impl_block_type_str = str::from_utf8(impl_block_type).unwrap();
+        if let Some(impl_block_type) = &maybe_impl_block_type {
             let module = source_code_id.get_module();
-            let new_self_type = format!("{}::{}", module, impl_block_type_str);
+            let new_self_type = format!("{}::{}", module, impl_block_type);
             for arg in bare_signature
                 .inputs
                 .iter_mut()

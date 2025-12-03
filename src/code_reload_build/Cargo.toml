@@ -25,3 +25,6 @@ quote = { workspace = true }
 
 libloading = { workspace = true }
 notify = { workspace = true }
+
+[dev-dependencies]
+mockall = { workspace = true }

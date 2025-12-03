@@ -2,8 +2,8 @@ use code_reload_build::SERVICES;
 use std::path::Path;
 
 fn main() {
-    let a = Path::new("crates\\test_demrary\\src\\lib.rs");
-    let b = Path::new("C:\\_RS\\code_reload\\src\\crates\\test_demrary");
+    // let a = Path::new("crates\\test_demrary\\src\\lib.rs");
+    // let b = Path::new("C:\\_RS\\code_reload\\src\\crates\\test_demrary");
     // let c = merge_file_and_manifest_paths(a, b);
 
     unsafe {

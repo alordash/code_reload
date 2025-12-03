@@ -2,11 +2,16 @@ use crate::IItemFnMapper;
 use crate::runtime::models::BuildFnData;
 use code_reload_core::SourceCodeId;
 use memmap2::Mmap;
+#[cfg(test)]
+use mockall::predicate::*;
+#[cfg(test)]
+use mockall::*;
 use std::cell::LazyCell;
 use std::iter;
 use std::path::Path;
 use std::sync::Arc;
 
+#[cfg_attr(test, automock)]
 pub trait IFileProcessor {
     fn process(&self, file_path: &Path) -> Vec<BuildFnData>;
 }
@@ -27,6 +32,7 @@ impl IFileProcessor for FileProcessor {
     }
 }
 
+#[cfg_attr(test, automock)]
 impl FileProcessor {
     /// Attribute can be specified as
     /// `#[hotreload]`
@@ -151,7 +157,7 @@ impl FileProcessor {
             .unwrap_or_else(|x| x - 1);
     }
 
-    fn try_get_impl_block_type<'a>(&self, byte_str: &'a [u8]) -> Option<&'a [u8]> {
+    fn try_get_impl_block_type(&self, byte_str: &[u8]) -> Option<String> {
         let Some(impl_block_start_index) = memchr::memmem::rfind(byte_str, Self::IMPL_BLOCK_START)
         else {
             return None;
@@ -169,7 +175,7 @@ impl FileProcessor {
         return Some(impl_block_type);
     }
 
-    fn get_impl_block_type<'a>(&self, byte_str: &'a [u8]) -> &'a [u8] {
+    fn get_impl_block_type(&self, byte_str: &[u8]) -> String {
         let open_bracket_index = memchr::memchr(b'{', byte_str).unwrap();
         let mut type_start_index = self
             .get_last_closing_bracket_index(&byte_str[..open_bracket_index], b'<', b'>')
@@ -180,7 +186,9 @@ impl FileProcessor {
         let type_end_index =
             type_start_index + memchr::memchr(b' ', &byte_str[type_start_index..]).unwrap();
 
-        return &byte_str[type_start_index..type_end_index];
+        return str::from_utf8(&byte_str[type_start_index..type_end_index])
+            .unwrap()
+            .to_owned();
     }
 
     fn count_brackets(&self, byte_str: &[u8]) -> isize {
@@ -240,4 +248,16 @@ impl FileProcessor {
 struct AttributeBorders {
     pub start_index: usize,
     pub end_index: usize,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use mockall::*;
+
+    #[test]
+    fn asd() {
+        let a = MockFileProcessor::new();
+        assert_eq!(2, 2);
+    }
 }
