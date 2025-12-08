@@ -2,7 +2,7 @@ use crate::macros::data::IFnDataFactory;
 use crate::macros::ISyntaxFactory;
 use code_reload_core::SourceCodeId;
 use proc_macro::TokenStream;
-use std::sync::Arc;
+use std::rc::Rc;
 use syn::*;
 
 pub trait IMacroHandler {
@@ -14,8 +14,8 @@ pub trait IMacroHandler {
 }
 
 pub struct MacroHandler {
-    pub fn_data_factory: Arc<dyn IFnDataFactory>,
-    pub syntax_factory: Arc<dyn ISyntaxFactory>,
+    pub fn_data_factory: Rc<dyn IFnDataFactory>,
+    pub syntax_factory: Rc<dyn ISyntaxFactory>,
 }
 
 impl IMacroHandler for MacroHandler {

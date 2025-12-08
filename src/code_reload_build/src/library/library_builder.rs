@@ -3,7 +3,7 @@ use crate::library::IFileProcessor;
 use crate::library::impl_type_exporter::IImplTypeExporter;
 use crate::{IOutputGenerator, IOutputWriter, ISourceFilePathsProvider};
 use std::path::Path;
-use std::sync::Arc;
+use std::rc::Rc;
 
 pub trait ILibraryBuilder {
     fn build(&self);
@@ -12,11 +12,11 @@ pub trait ILibraryBuilder {
 }
 
 pub struct LibraryBuilder {
-    pub source_file_paths_provider: Arc<dyn ISourceFilePathsProvider>,
-    pub file_processor: Arc<dyn IFileProcessor>,
-    pub impl_type_exporter: Arc<dyn IImplTypeExporter>,
-    pub output_generator: Arc<dyn IOutputGenerator>,
-    pub output_writer: Arc<dyn IOutputWriter>,
+    pub source_file_paths_provider: Rc<dyn ISourceFilePathsProvider>,
+    pub file_processor: Rc<dyn IFileProcessor>,
+    pub impl_type_exporter: Rc<dyn IImplTypeExporter>,
+    pub output_generator: Rc<dyn IOutputGenerator>,
+    pub output_writer: Rc<dyn IOutputWriter>,
 }
 
 impl ILibraryBuilder for LibraryBuilder {

@@ -9,7 +9,7 @@ use mockall::*;
 use std::cell::LazyCell;
 use std::iter;
 use std::path::Path;
-use std::sync::Arc;
+use std::rc::Rc;
 
 #[cfg_attr(test, automock)]
 pub trait IFileProcessor {
@@ -17,7 +17,7 @@ pub trait IFileProcessor {
 }
 
 pub struct FileProcessor {
-    pub item_fn_mapper: Arc<dyn IItemFnMapper>,
+    pub item_fn_mapper: Rc<dyn IItemFnMapper>,
 }
 
 impl IFileProcessor for FileProcessor {

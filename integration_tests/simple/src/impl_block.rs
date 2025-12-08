@@ -6,17 +6,6 @@ struct Model {
     number: i32,
 }
 
-trait Foo {
-    fn work(&self) -> i32;
-}
-
-impl Foo for Model {
-    #[hotreload]
-    fn work(&self) -> i32 {
-        3
-    }
-}
-
 impl Model {
     #[hotreload]
     #[inline(never)]

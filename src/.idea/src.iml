@@ -24,6 +24,7 @@
       <sourceFolder url="file://$MODULE_DIR$/code_reload_core/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/code_reload_proc_macro/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/integration_tests/simple/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code_reload_build/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/crates/code_reload_proc_macro/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/code_reload_proc_macro/target" />

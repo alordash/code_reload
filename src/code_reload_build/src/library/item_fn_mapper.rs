@@ -2,7 +2,7 @@ use crate::runtime::models::BuildFnData;
 use code_reload_core::SourceCodeId;
 use code_reload_core::services::IFnProcessor;
 use quote::ToTokens;
-use std::sync::Arc;
+use std::rc::Rc;
 use syn::ItemFn;
 
 pub trait IItemFnMapper {
@@ -15,7 +15,7 @@ pub trait IItemFnMapper {
 }
 
 pub struct ItemFnMapper {
-    pub fn_processor: Arc<dyn IFnProcessor>,
+    pub fn_processor: Rc<dyn IFnProcessor>,
 }
 
 impl IItemFnMapper for ItemFnMapper {

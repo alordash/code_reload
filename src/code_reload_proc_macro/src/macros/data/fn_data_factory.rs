@@ -3,7 +3,7 @@ use crate::macros::{IErrorFormatter, IFnValidator, IMetadataProcessor};
 use code_reload_core::services::IFnProcessor;
 use code_reload_core::SourceCodeId;
 use quote::ToTokens;
-use std::sync::Arc;
+use std::rc::Rc;
 use syn::*;
 
 pub trait IFnDataFactory {
@@ -11,10 +11,10 @@ pub trait IFnDataFactory {
 }
 
 pub struct FnDataFactory {
-    pub metadata_processor: Arc<dyn IMetadataProcessor>,
-    pub fn_validator: Arc<dyn IFnValidator>,
-    pub fn_processor: Arc<dyn IFnProcessor>,
-    pub error_formatter: Arc<dyn IErrorFormatter>,
+    pub metadata_processor: Rc<dyn IMetadataProcessor>,
+    pub fn_validator: Rc<dyn IFnValidator>,
+    pub fn_processor: Rc<dyn IFnProcessor>,
+    pub error_formatter: Rc<dyn IErrorFormatter>,
 }
 
 impl IFnDataFactory for FnDataFactory {
