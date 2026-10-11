@@ -1,12 +1,13 @@
 [package]
 name = "hotcode"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2024"
 rust-version = "1.89.0"
 description = "Library for hotreload in Rust."
 license = "MIT"
 repository = "https://github.com/alordash/hotcode"
 readme = "../../README.md"
+keywords = ["dev", "developer-tools", "hotreload", "hot-reload", "watch"]
 
 [dependencies]
 hotcode_core = { workspace = true }
