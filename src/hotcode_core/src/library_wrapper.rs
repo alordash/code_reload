@@ -6,7 +6,7 @@ use std::time::Instant;
 #[doc(hidden)]
 pub struct LibraryWrapper {
     library_copy_path: PathBuf,
-    fn_ptrs_map: GrowMap<&'static [u8], *mut core::ffi::c_void>,
+    symbol_ptrs_map: GrowMap<&'static [u8], *mut core::ffi::c_void>,
     maybe_inner: Option<libloading::Library>,
 }
 
@@ -24,7 +24,7 @@ impl LibraryWrapper {
         };
         let result = Self {
             library_copy_path,
-            fn_ptrs_map: GrowMap::new(),
+            symbol_ptrs_map: GrowMap::new(),
             maybe_inner: Some(inner),
         };
 
@@ -36,28 +36,30 @@ impl LibraryWrapper {
     }
 
     pub fn get<F>(self: Arc<Self>, symbol_name: &'static [u8]) -> FnGuard<F> {
-        let raw_fn_ptr = self.fn_ptrs_map.get_or_insert_with(symbol_name, || unsafe {
-            let raw_fn_ptr = self
-                .maybe_inner
-                .as_ref()
-                .expect("Dynamic library must be loaded into wrapper.")
-                .get::<fn()>(symbol_name)
-                .unwrap_or_else(|e| {
-                    panic!(
-                        "Unable to find function with symbol name '{}': {:?}",
-                        String::from_utf8_lossy(symbol_name),
-                        e
-                    )
-                })
-                .try_as_raw_ptr()
-                .unwrap_or_else(|| {
-                    panic!(
-                        "Unable to convert symbol '{}' to raw ptr: empty",
-                        String::from_utf8_lossy(symbol_name)
-                    )
-                });
-            return raw_fn_ptr;
-        });
+        let raw_fn_ptr = self
+            .symbol_ptrs_map
+            .get_or_insert_with(symbol_name, || unsafe {
+                let raw_fn_ptr = self
+                    .maybe_inner
+                    .as_ref()
+                    .expect("Dynamic library must be loaded into wrapper.")
+                    .get::<fn()>(symbol_name)
+                    .unwrap_or_else(|e| {
+                        panic!(
+                            "Unable to find function with symbol name '{}': {:?}",
+                            String::from_utf8_lossy(symbol_name),
+                            e
+                        )
+                    })
+                    .try_as_raw_ptr()
+                    .unwrap_or_else(|| {
+                        panic!(
+                            "Unable to convert symbol '{}' to raw ptr: empty",
+                            String::from_utf8_lossy(symbol_name)
+                        )
+                    });
+                return raw_fn_ptr;
+            });
         let fn_ptr = raw_fn_ptr.cast::<()>();
         let r#fn = unsafe { core::mem::transmute_copy(&fn_ptr) };
         let result = FnGuard::new(r#fn, self.clone());

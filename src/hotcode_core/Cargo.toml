@@ -9,7 +9,6 @@ repository = "https://github.com/alordash/hotcode"
 readme = "../../README.md"
 
 [dependencies]
-indexmap = { workspace = true }
 libloading = { workspace = true }
 arc-swap = { workspace = true }
 notify-debouncer-full = { workspace = true }

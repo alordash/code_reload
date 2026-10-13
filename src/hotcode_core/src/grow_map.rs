@@ -1,16 +1,16 @@
-use indexmap::IndexMap;
+use std::collections::HashMap;
 use std::hash::Hash;
 use std::sync::RwLock;
 
-// Map that can only return and insert values. Inserted values can not be removed or updated.
+// Map that can only return and insert values. Inserted values can not be removed.
 pub struct GrowMap<K, V> {
-    inner: RwLock<IndexMap<K, V>>,
+    inner: RwLock<HashMap<K, V>>,
 }
 
 impl<K, V> GrowMap<K, V> {
     pub fn new() -> Self {
         Self {
-            inner: RwLock::new(IndexMap::new()),
+            inner: RwLock::new(HashMap::new()),
         }
     }
 }
@@ -23,29 +23,22 @@ unsafe impl<K, V> Sync for GrowMap<K, V> {}
 impl<K, V> GrowMap<K, V>
 where
     K: Eq + Hash,
+    V: Clone,
 {
-    pub fn get_or_insert_with<F: FnOnce() -> V>(&self, key: K, default: F) -> &V {
+    pub fn get_or_insert_with<F: FnOnce() -> V>(&self, key: K, default: F) -> V {
         if let Some(existing) = self.get(&key) {
             return existing;
         }
         let mut write = self.inner.write().unwrap();
         let new_value = default();
         let created = write.entry(key).insert_entry(new_value);
-        // SAFETY: created entries can not be removed or changed due to this struct's API, so it
-        // is safe to treat references to its entries as having same lifetime as `&self`.
-        // `IndexMap` also guarantees that order of entries will not change, and they won't be
-        // moved.
-        return unsafe { core::mem::transmute::<&V, &V>(created.get()) };
+        return created.get().clone();
     }
 
-    pub fn get(&self, key: &K) -> Option<&V> {
+    pub fn get(&self, key: &K) -> Option<V> {
         let read = self.inner.read().unwrap();
         if let Some(existing) = read.get(key) {
-            // SAFETY: created entries can not be removed or changed due to this struct's API, so it
-            // is safe to treat references to its entries as having same lifetime as `&self`.
-            // `IndexMap` also guarantees that order of entries will not change, and they won't be
-            // moved.
-            return Some(unsafe { core::mem::transmute::<&V, &V>(existing) });
+            return Some(existing.clone());
         }
         return None;
     }
@@ -72,7 +65,7 @@ mod tests {
         let result = grow_map.get_or_insert_with(key, factory);
 
         // Assert
-        assert_eq!(result, &new_value);
+        assert_eq!(result, new_value);
         factory::received::<Value>(1.time());
     }
 
@@ -94,7 +87,7 @@ mod tests {
         let result = grow_map.get_or_insert_with(key, factory);
 
         // Assert
-        assert_eq!(result, &existing_value);
+        assert_eq!(result, existing_value);
         factory::received_nothing::<Value>();
     }
 
@@ -129,7 +122,7 @@ mod tests {
         let result = grow_map.get(&key);
 
         // Assert
-        assert_eq!(result, Some(&existing_value));
+        assert_eq!(result, Some(existing_value));
     }
 
     #[automock::mock]
