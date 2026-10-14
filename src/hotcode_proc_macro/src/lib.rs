@@ -7,7 +7,7 @@ mod source_code_id;
 
 use source_code_id::*;
 
-/// The whole point. Apply it to a function inside `cdylib` library crate to make it
+/// The whole point. Apply it to a function inside `dylib` library crate to make it
 /// hot-reloadable. Refer to `hotcode` crate documentation for more information.
 ///
 /// Accepts `always` argument to make it work in all build profiles: `#[hotreload(always)]`.

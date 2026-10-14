@@ -6,11 +6,11 @@
 //! crate with runnable binaries, or an extra binary crate that uses your library.
 //!
 //! First, add `hotcode` as a dependency to your library crate.
-//! Then, add `cdylib` and `lib` to your library's crate types:
+//! Then, add `dylib` and `lib` to your library's crate types:
 //! ```toml
 //! # Cargo.toml
 //! [lib]
-//! crate-type = ["cdylib", "lib"]
+//! crate-type = ["dylib", "lib"]
 //! ```
 //!
 //! Finally, apply `#[hotreload]` attribute to the function that you want to reload:
@@ -40,7 +40,7 @@
 //! # How it works
 //!
 //! `hotcode` adds an `if` block at the beginning of affected functions. It checks whether the
-//! currently invoked function is loaded from a dynamic library or is statically linked (`cdylib`
+//! currently invoked function is loaded from a dynamic library or is statically linked (`dylib`
 //! and `lib` parts of your `crate-type` config, respectively). If it is located in a dynamic
 //! module, then the body of your function is invoked; otherwise, `hotcode` tries to lazily load
 //! your function from the dynamic module. The first call requires multiple initialization steps:

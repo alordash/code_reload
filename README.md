@@ -24,11 +24,11 @@ Add `hotcode` to your `dependencies`:
 hotcode = "1.0.1"
 ```
 
-Add `cdylib` to your library's crate types:
+Add `dylib` to your library's crate types:
 
 ```toml
 [lib]
-crate-type = ["cdylib", "lib"]
+crate-type = ["dylib", "lib"]
 ```
 
 Add `hotcode::hotreload` attribute to your function:
