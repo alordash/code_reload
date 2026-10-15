@@ -10,7 +10,7 @@
 //! ```toml
 //! # Cargo.toml
 //! [lib]
-//! crate-type = ["dylib", "lib"]
+//! crate-type = ["dylib", "rlib"]
 //! ```
 //!
 //! Finally, apply `#[hotreload]` attribute to the function that you want to reload:

@@ -28,7 +28,7 @@ Add `dylib` to your library's crate types:
 
 ```toml
 [lib]
-crate-type = ["dylib", "lib"]
+crate-type = ["dylib", "rlib"]
 ```
 
 Add `hotcode::hotreload` attribute to your function:
