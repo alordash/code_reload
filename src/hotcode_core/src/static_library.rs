@@ -6,6 +6,7 @@ pub static DYNAMIC_LIBRARIES_MAP: LazyLock<GrowMap<String, Arc<ArcSwap<LibraryWr
     LazyLock::new(GrowMap::new);
 
 #[doc(hidden)]
+#[cold]
 pub fn provide_fn<F>(library_file_name: &'static str, symbol_name: &'static [u8]) -> FnGuard<F> {
     let library = provide_library_wrapper(library_file_name);
     let fn_guard = library.get(symbol_name);
