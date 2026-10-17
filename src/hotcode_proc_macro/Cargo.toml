@@ -1,6 +1,6 @@
 [package]
 name = "hotcode_proc_macro"
-version = "1.0.2"
+version = "1.0.3"
 edition = "2024"
 rust-version = "1.89.0"
 description = "Procedural macros for hotcode library."

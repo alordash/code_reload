@@ -113,6 +113,22 @@
 //!    fn bar(array: &[i32]) { println!("{array:?}") }
 //!    ```
 //!    you will get UB because `foo` was not hot-reloaded - it still passes string instead of array.
+//! 3. Hotreloading breaks `'static` lifetime guarantees. For example, if you hotreload a function
+//!    that returns static reference you will get Undefined Behavior:  
+//!    ```ignore
+//!    # use hotcode::hotreload;
+//!    static STRING: &'static str = "string";
+//!    #[hotreload]
+//!    fn string() -> &'static str { STRING }
+//!
+//!    # fn main() {
+//!    let string = string();
+//!    // hotreload
+//!    assert_eq!(string, "string");    // UB - use-after-free
+//!    # }
+//!    ```
+//!    Static references that you got before performing hotreload become dangling because they were
+//!    referencing static variable from previously loaded dynamic library that is now unloaded.
 //!
 //! # Examples
 //!

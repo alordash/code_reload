@@ -1,6 +1,6 @@
 [package]
 name = "hotcode_core"
-version = "1.0.2"
+version = "1.0.3"
 edition = "2024"
 rust-version = "1.89.0"
 description = "Core for hotcode library."
