@@ -24,7 +24,7 @@ Add `hotcode` to your `dependencies`:
 hotcode = "1.0.3"
 ```
 
-Add `dylib` to your library's crate types:
+Add `dylib` and `rlib` to your library's crate types:
 
 ```toml
 [lib]
